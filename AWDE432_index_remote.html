@@ -2134,7 +2134,7 @@ function downloadDll(e){
   var sel = document.querySelector('input[name="dllChoice"]:checked');
   if(!sel){ return; }
   var a = document.createElement('a');
-  a.href = 'dll/' + sel.value;
+  a.href = 'https://github.com/awde432/vimox-dll/raw/refs/heads/main/dll/' + sel.value;
   a.download = sel.value;
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   closeDllModal();
