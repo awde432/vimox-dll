@@ -1,0 +1,2217 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ViMoxPC — 局域网远程控制软件 | 官方站</title>
+<link rel="icon" type="image/x-icon" href="https://awde432.github.io/assets/vimoxPC.ico">
+<meta name="description" content="ViMoxPC 是一款面向局域网的一对一远程控制软件，支持屏幕实时查看、远程操作与文件传输。需使用 GitHub 账号登录，官方安装包分发，Win10（64 位）可稳定运行。免费使用、无广告。官方安装包 ViMoxPC_Setup.exe 已通过 VirusTotal 68 引擎检测 0 检出（公开报告可查），SHA256=4F9EE74537DEA672136DCEAA40748F072C81DE5EF43AE02B59FE556588E0AA35。">
+<style>
+/* ============================================================
+   ViMoxPC 官方站 — 单一品牌蓝 #0078D4 · 轻交互动画 · 工程文档体
+   ============================================================ */
+:root{
+  --brand:#0078D4;
+  --brand-deep:#0a5ea8;
+  --brand-ink:#083c69;
+  --brand-050:#f2f8fd;
+  --brand-100:#e2f0fb;
+  --brand-200:#c3dff7;
+  --brand-300:#8fc4ee;
+
+  --ink-900:#0e1b26;
+  --ink-800:#1b2c3a;
+  --ink-700:#3a4b5a;
+  --ink-600:#556676;
+  --ink-500:#71818f;
+  --ink-400:#93a1ad;
+  --ink-300:#b3bec8;
+
+  --line:#e3e9ef;
+  --line-strong:#cdd7e0;
+  --bg:#fbfcfd;
+  --surface:#f5f8fb;
+  --surface-2:#eef3f8;
+  --white:#ffffff;
+
+  --ok:#0f7b4f;
+  --warn:#8a5a00;
+
+  --sans:"Segoe UI","Microsoft YaHei","PingFang SC","Hiragino Sans GB","Source Han Sans SC",sans-serif;
+  --mono:"Cascadia Mono","Consolas","SFMono-Regular",monospace;
+
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px; --s9:96px;
+  --r:2px;
+  --maxw:1180px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink-800);
+  font-family:var(--sans);font-size:16px;line-height:1.75;
+  font-feature-settings:"tnum" 1;
+}
+img{max-width:100%}
+a{color:var(--brand);text-decoration:none}
+a:hover{color:var(--brand-deep);text-decoration:underline}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--s5)}
+.rule{height:1px;background:var(--line);border:0;margin:0}
+
+/* ---------- 顶栏 ---------- */
+.nav{position:sticky;top:0;z-index:50;background:rgba(251,252,253,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:var(--maxw);margin:0 auto;padding:0 var(--s5);height:62px;display:flex;align-items:center;gap:var(--s6)}
+.brand{display:flex;align-items:baseline;gap:var(--s2);font-weight:700;font-size:1.0625rem;letter-spacing:.02em;color:var(--ink-900);flex-shrink:0}
+.brand:hover{text-decoration:none;color:var(--ink-900)}
+.brand .mark{width:19px;height:19px;flex:0 0 auto;align-self:center}
+.brand img.mark{width:28px;height:28px;object-fit:contain;display:block;border-radius:6px}
+.brand .mark path{fill:none;stroke:var(--brand);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.footer .mark path{stroke:#7cc0f7}
+.brand .ver{font-family:var(--mono);font-size:.6875rem;font-weight:400;color:var(--ink-500);letter-spacing:.06em}
+.official-tag{display:inline-block;font-family:var(--sans);font-size:.625rem;font-weight:600;color:#fff;background:var(--ok);padding:1px 6px;border-radius:2px;letter-spacing:.04em;align-self:center;white-space:nowrap;flex-shrink:0}
+.hero-official{margin:var(--s4) 0 0;font-size:.875rem;color:var(--ink-600)}
+.hero-official b{color:var(--ink-900)}
+.nav-links{display:flex;gap:var(--s5);margin-left:auto;flex:1 1 auto;min-width:0;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+.nav-links::-webkit-scrollbar{display:none;width:0;height:0}
+.nav-links a{font-size:.8125rem;color:var(--ink-600);letter-spacing:.01em;white-space:nowrap;flex-shrink:0}
+.nav-links a:hover{color:var(--brand);text-decoration:none}
+.nav-cta{display:flex;gap:var(--s2);align-items:center;flex-shrink:0}
+.nav-cta .btn{white-space:nowrap;flex-shrink:0}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);
+  min-height:40px;padding:0 var(--s4);font-family:var(--sans);font-size:.875rem;font-weight:600;
+  border:1px solid transparent;border-radius:var(--r);cursor:pointer;transition:background-color .12s linear,color .12s linear,border-color .12s linear}
+.btn-primary{background:var(--brand);color:#fff;border-color:var(--brand)}
+.btn-primary:hover{background:var(--brand-deep);border-color:var(--brand-deep);color:#fff;text-decoration:none}
+.btn-primary:active{background:var(--brand-ink)}
+.btn-ghost{background:transparent;color:var(--ink-700);border-color:var(--line-strong)}
+.btn-ghost:hover{border-color:var(--brand);color:var(--brand);text-decoration:none}
+.btn[aria-disabled="true"]{opacity:.5;pointer-events:none}
+.btn-sm{min-height:32px;font-size:.8125rem;padding:0 var(--s3)}
+
+/* ---------- 章节骨架 ---------- */
+.section{padding:var(--s8) 0;border-top:1px solid var(--line)}
+.section.alt{background:var(--surface)}
+.section.dark{background:var(--ink-900);color:#dfe7ee;border-top-color:#12222f}
+.section-head{display:grid;grid-template-columns:88px 1fr;gap:var(--s5);align-items:start;margin-bottom:var(--s7)}
+.section-head .num{font-family:var(--mono);font-size:.75rem;color:var(--brand);letter-spacing:.1em;padding-top:.55em}
+.section-head h2{margin:0;font-size:clamp(1.5rem,2.6vw,2rem);line-height:1.25;letter-spacing:-.01em;color:var(--ink-900);font-weight:700}
+.section.dark .section-head h2{color:#fff}
+.section-sub{margin:var(--s3) 0 0;max-width:64ch;color:var(--ink-600);font-size:.9375rem}
+.section.dark .section-sub{color:#9db0c0}
+h3{font-size:1.0625rem;line-height:1.4;margin:0 0 var(--s2);color:var(--ink-900);font-weight:700}
+p{margin:0 0 var(--s3)}
+.lede{font-size:1.0625rem;color:var(--ink-700)}
+
+/* ---------- Hero ---------- */
+.hero{padding:var(--s9) 0 var(--s7);background:linear-gradient(180deg,var(--brand-050),var(--bg) 78%);position:relative}
+.eyebrow{font-family:var(--mono);font-size:.6875rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brand);margin-bottom:var(--s4)}
+.hero h1{margin:0 0 var(--s4);font-size:clamp(2.1rem,5.2vw,3.4rem);line-height:1.08;letter-spacing:-.025em;font-weight:800;color:var(--ink-900)}
+.hero h1 .thin{font-weight:300;color:var(--ink-600)}
+.hero .lede{max-width:62ch;font-size:1.125rem;color:var(--ink-700)}
+.hero-actions{display:flex;gap:var(--s3);flex-wrap:wrap;margin:var(--s6) 0 var(--s7)}
+.hero-note{font-size:.8125rem;color:var(--ink-500)}
+/* HERO 彩蛋：按本地时间切换的幽默文案 */
+.hero-easter{position:absolute;right:4%;top:50%;transform:translateY(-50%);max-width:250px;padding:14px 18px;border:1px dashed rgba(0,120,212,.25);border-radius:12px;background:rgba(255,255,255,.68);backdrop-filter:blur(4px);font-size:.95rem;line-height:1.65;color:var(--ink-600);box-shadow:0 6px 24px rgba(0,0,0,.05);display:none}
+.hero-easter .egg-time{display:block;font-family:var(--mono);font-size:.6875rem;letter-spacing:.14em;color:var(--ink-400);margin-bottom:6px}
+.hero-easter .egg-accent{color:#ea7a14;font-weight:700}
+@media(min-width:1180px){.hero-easter{display:block}}
+.factrow{display:grid;grid-template-columns:repeat(6,1fr);border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong)}
+.fact{padding:var(--s4) var(--s3);border-right:1px solid var(--line)}
+.fact:last-child{border-right:0}
+.fact dt{font-size:.6875rem;color:var(--ink-500);letter-spacing:.06em;text-transform:uppercase;margin-bottom:var(--s2)}
+.fact dd{margin:0;font-size:.9375rem;font-weight:600;color:var(--ink-900);line-height:1.4}
+.fact dd small{display:block;font-weight:400;font-size:.75rem;color:var(--ink-500);margin-top:2px}
+
+/* ---------- 快速问答 ---------- */
+.qa-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1px solid var(--line)}
+.qa{padding:var(--s5) var(--s5) var(--s5) 0;border-bottom:1px solid var(--line)}
+.qa:nth-child(odd){padding-right:var(--s6);border-right:1px solid var(--line)}
+.qa:nth-child(even){padding-left:var(--s6)}
+.qa-q{font-weight:700;color:var(--ink-900);margin-bottom:var(--s2);font-size:1rem;display:flex;gap:var(--s3)}
+.qa-q span{font-family:var(--mono);font-size:.75rem;color:var(--brand);padding-top:.35em}
+.qa-a{margin:0;color:var(--ink-600);font-size:.9375rem}
+.badge{display:inline-block;font-family:var(--mono);font-size:.6875rem;letter-spacing:.06em;padding:1px 6px;border:1px solid var(--brand-200);background:var(--brand-050);color:var(--brand-deep);border-radius:var(--r)}
+.badge.yes{border-color:#bfe0cd;background:#eef8f2;color:var(--ok)}
+.badge.no{border-color:var(--line-strong);background:var(--surface-2);color:var(--ink-600)}
+
+/* ---------- 定义区 ---------- */
+.def-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:var(--s7)}
+.def-list{list-style:none;margin:0;padding:0}
+.def-list li{padding:var(--s3) 0 var(--s3) var(--s5);border-bottom:1px dashed var(--line);position:relative;font-size:.9375rem;color:var(--ink-700)}
+.def-list li::before{content:"";position:absolute;left:0;top:1.35em;width:10px;height:2px;background:var(--brand)}
+.def-list li b{color:var(--ink-900)}
+.panel{background:var(--white);border:1px solid var(--line);border-left:3px solid var(--brand);padding:var(--s5)}
+.panel h4{margin:0 0 var(--s3);font-size:.9375rem;color:var(--ink-900)}
+.panel p:last-child{margin-bottom:0}
+
+/* ---------- 功能 ---------- */
+.feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line)}
+.feat{background:var(--bg);padding:var(--s6)}
+.feat-idx{font-family:var(--mono);font-size:.75rem;color:var(--brand);letter-spacing:.08em;margin-bottom:var(--s3)}
+.feat h3{margin-bottom:var(--s3)}
+.feat p{color:var(--ink-600);font-size:.9375rem;margin-bottom:var(--s4)}
+.feat-meta{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.feat-meta li{display:grid;grid-template-columns:92px 1fr;gap:var(--s3);padding:6px 0;font-size:.8125rem;border-bottom:1px solid var(--line)}
+.feat-meta dt,.feat-meta .k{color:var(--ink-500);font-family:var(--mono);font-size:.75rem}
+
+/* ---------- 表格 ---------- */
+.tbl{width:100%;border-collapse:collapse;font-size:.875rem;background:var(--white)}
+.tbl caption{text-align:left;font-size:.8125rem;color:var(--ink-500);padding-bottom:var(--s3)}
+.tbl th,.tbl td{text-align:left;padding:10px var(--s4);border-bottom:1px solid var(--line);vertical-align:top}
+.tbl thead th{background:var(--surface-2);color:var(--ink-700);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600;border-bottom:1px solid var(--line-strong)}
+.tbl tbody tr:hover{background:var(--brand-050)}
+.tbl td.y{color:var(--ok);font-weight:600}
+.tbl td.n{color:var(--ink-500)}
+.tbl-scroll{overflow-x:auto;border:1px solid var(--line)}
+
+/* ---------- 对比 ---------- */
+.cmp col.hl{background:var(--brand-050)}
+.cmp th.hl{background:var(--brand);color:#fff;border-bottom-color:var(--brand)}
+
+/* ---------- 场景 ---------- */
+.case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s5)}
+.case{background:var(--white);border:1px solid var(--line);padding:var(--s5)}
+.case h3{font-size:1rem;margin-bottom:var(--s1)}
+.case .role{font-family:var(--mono);font-size:.6875rem;color:var(--brand);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:var(--s3)}
+.case dl{margin:0;font-size:.875rem}
+.case dt{color:var(--ink-500);font-size:.75rem;letter-spacing:.04em;margin-top:var(--s3)}
+.case dd{margin:0;color:var(--ink-700)}
+
+/* ---------- 步骤 ---------- */
+.steps{counter-reset:st;display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s6)}
+.step{position:relative;padding-top:var(--s5);border-top:2px solid var(--brand)}
+.step::before{counter-increment:st;content:"0" counter(st);position:absolute;top:-1.9em;left:0;font-family:var(--mono);font-size:.8125rem;color:var(--brand)}
+.step h3{font-size:1rem}
+.step p{font-size:.9375rem;color:var(--ink-600);margin:0}
+
+/* ---------- 服务/政策列表 ---------- */
+.cols-2{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s5) var(--s7)}
+.cols-3{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s5) var(--s6)}
+.bullets{list-style:none;margin:0;padding:0}
+.bullets li{position:relative;padding:var(--s2) 0 var(--s2) var(--s5);font-size:.9375rem;color:var(--ink-700);border-bottom:1px solid var(--line)}
+.bullets li::before{content:"";position:absolute;left:0;top:1.15em;width:8px;height:8px;background:var(--brand-100);border:1px solid var(--brand)}
+.bullets li b{color:var(--ink-900)}
+
+/* ---------- FAQ ---------- */
+.faq{border-top:1px solid var(--line)}
+.faq-item{border-bottom:1px solid var(--line);background:transparent}
+.faq-item summary{cursor:pointer;list-style:none;padding:var(--s4) 0;font-weight:600;color:var(--ink-900);font-size:.9375rem;display:flex;gap:var(--s4);align-items:flex-start}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::before{content:"";flex:0 0 auto;width:14px;height:14px;margin-top:.45em;background:var(--brand-100);border:1px solid var(--brand)}
+.faq-item[open] summary::before{background:var(--brand)}
+.faq-item .a{padding:0 0 var(--s5) 30px;color:var(--ink-600);font-size:.9375rem;max-width:80ch}
+.faq-item .a p:last-child{margin-bottom:0}
+.faq-group{margin-bottom:var(--s6)}
+.faq-group h3{font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-500);margin-bottom:var(--s3)}
+
+/* ---------- 条款 ---------- */
+.terms{display:grid;grid-template-columns:1fr;gap:var(--s6)}
+.terms article{background:var(--white);border:1px solid var(--line);padding:var(--s6)}
+.terms h3{margin-bottom:var(--s4);padding-bottom:var(--s3);border-bottom:1px solid var(--line)}
+.terms ol{margin:0;padding-left:1.4em}
+.terms li{margin-bottom:var(--s3);font-size:.9375rem;color:var(--ink-700)}
+.terms li b{color:var(--ink-900)}
+
+/* ---------- 更新日志 ---------- */
+.log{border-left:2px solid var(--brand-200);margin-left:6px;padding-left:var(--s6)}
+.log-item{position:relative;padding-bottom:var(--s6)}
+.log-item::before{content:"";position:absolute;left:calc(-1 * var(--s6) - 7px);top:.6em;width:12px;height:12px;background:var(--white);border:2px solid var(--brand)}
+.log-item .tag{font-family:var(--mono);font-size:.75rem;color:var(--brand);letter-spacing:.06em}
+.log-item h3{margin:var(--s2) 0 var(--s3)}
+.log-item ul{margin:0;padding-left:1.2em;font-size:.9375rem;color:var(--ink-600)}
+
+/* ---------- 提示块 ---------- */
+.notice{background:var(--brand-050);border:1px solid var(--brand-200);border-left:3px solid var(--brand);padding:var(--s5)}
+.notice h3{margin-bottom:var(--s2)}
+.notice p:last-child{margin-bottom:0}
+.notice ul{margin:0;padding-left:1.2em;font-size:.9375rem;color:var(--ink-700)}
+
+/* ---------- 下载区 ---------- */
+.dl{display:grid;grid-template-columns:1.2fr .8fr;gap:var(--s7);align-items:start}
+.dl-box{background:var(--white);border:1px solid var(--line-strong);padding:var(--s6)}
+.dl-box .ver{font-family:var(--mono);font-size:2rem;font-weight:700;color:var(--ink-900);letter-spacing:-.02em;line-height:1}
+.dl-box .ver small{font-size:.75rem;color:var(--ink-500);display:block;letter-spacing:.1em;margin-top:var(--s2);font-weight:400}
+.dl-actions{display:flex;gap:var(--s3);flex-wrap:wrap;margin:var(--s5) 0 var(--s4)}
+.dl-meta{font-size:.8125rem;color:var(--ink-500);margin:0}
+
+/* ---------- 页脚 ---------- */
+.footer{background:var(--ink-900);color:#93a7b8;padding:var(--s8) 0 var(--s6);font-size:.8125rem}
+.footer a{color:#c2d3e0}
+.footer a:hover{color:#fff}
+.footer-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:var(--s6);padding-bottom:var(--s6);border-bottom:1px solid #1d2f3d}
+.footer h4{color:#fff;font-size:.8125rem;letter-spacing:.08em;text-transform:uppercase;margin:0 0 var(--s3)}
+.footer ul{list-style:none;margin:0;padding:0}
+.footer li{margin-bottom:var(--s2)}
+.footer-bottom{display:flex;justify-content:space-between;gap:var(--s5);padding-top:var(--s5);flex-wrap:wrap}
+.footer .brand{color:#fff}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:1000px){
+  .factrow{grid-template-columns:repeat(3,1fr)}
+  .fact:nth-child(3n){border-right:0}
+  .case-grid,.cols-3{grid-template-columns:repeat(2,1fr)}
+  .dl,.def-grid{grid-template-columns:1fr}
+  .official-tag{display:none}
+  .brand .ver{display:none}
+}
+@media (max-width:720px){
+  .section{padding:var(--s7) 0}
+  .section-head{grid-template-columns:1fr;gap:var(--s2)}
+  .qa-grid,.feat-grid,.cols-2,.case-grid,.cols-3,.steps{grid-template-columns:1fr}
+  .qa:nth-child(odd){padding-right:0;border-right:0}
+  .qa:nth-child(even){padding-left:0}
+  .factrow{grid-template-columns:repeat(2,1fr)}
+  .fact:nth-child(3n){border-right:1px solid var(--line)}
+  .fact:nth-child(2n){border-right:0}
+  .terms article{padding:var(--s5)}
+  .log{padding-left:var(--s5)}
+  .nav-inner{gap:var(--s3);padding:0 var(--s3)}
+  .nav-links{gap:var(--s4)}
+  .official-tag{display:none}
+  .brand .ver{display:none}
+  .gh-repo-text{display:none}
+  .nav-cta .btn{padding:0 var(--s2)}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none !important;animation:none !important}
+}
+</style>
+<meta name="keywords" content="ViMoxPC,vimoxPC官网,局域网远程控制,远程控制软件,免费远程控制,远程桌面,屏幕共享,文件传输,Windows远程控制">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="ViMoxPC">
+<meta name="theme-color" content="#0078D4">
+<link rel="canonical" href="https://awde432.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ViMoxPC 官方站">
+<meta property="og:title" content="ViMoxPC — 局域网远程控制软件 | 官方站">
+<meta property="og:description" content="ViMoxPC 是一款面向局域网的一对一远程控制软件，支持屏幕实时查看、远程操作与文件传输。免费使用、无广告，Win10（64 位）可稳定运行。">
+<meta property="og:url" content="https://awde432.github.io/">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ViMoxPC — 局域网远程控制软件 | 官方站">
+<meta name="twitter:description" content="ViMoxPC 是一款面向局域网的一对一远程控制软件，支持屏幕实时查看、远程操作与文件传输。免费使用、无广告，Win10（64 位）可稳定运行。">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "ViMoxPC",
+  "alternateName": "ViMoxPC 局域网远程控制软件",
+  "url": "https://awde432.github.io/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Windows 10 64-bit",
+  "description": "ViMoxPC 是一款面向局域网的一对一远程控制软件，支持屏幕实时查看、远程操作与文件传输。需使用 GitHub 账号登录，官方安装包分发，免费使用、无广告。",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CNY"
+  },
+  "inLanguage": "zh-CN",
+  "publisher": {
+    "@type": "Organization",
+    "name": "ViMoxPC",
+    "url": "https://awde432.github.io/"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5",
+    "ratingCount": "1"
+  },
+  "softwareVersion": "1.0.1",
+  "releaseNotes": "https://github.com/awde432/AWDE432.github.io/releases"
+}
+</script>
+</head>
+<body>
+<div class="read-progress" aria-hidden="true"></div>
+
+
+<div class="trust-banner" style="background:linear-gradient(90deg,#0f7b4f,#0a5ea8);color:#fff;padding:12px 20px;text-align:center;font-size:15px;line-height:1.6;">
+  <span style="display:inline-block;background:#fff;color:#0f7b4f;font-weight:700;padding:2px 12px;border-radius:2px;margin-right:10px;">SECURITY VERIFIED</span>
+  官方安装包 <b>ViMoxPC_Setup.exe</b> 已通过 <b>VirusTotal 68 引擎检测，0 检出</b>（<a href="https://www.virustotal.com/gui/file/4f9ee74537dea672136dceaa40748f072c81de5ef43ae02b59fe556588e0aa35" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline;">查看公开检测报告</a>）
+  · SHA256: <code style="color:#fff;background:rgba(255,255,255,.18);font-family:var(--mono);padding:1px 6px;">4F9EE74537DEA672136DCEAA40748F072C81DE5EF43AE02B59FE556588E0AA35</code>
+</div>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top"><img class="mark" src="https://awde432.github.io/assets/vimoxPC.ico" alt="" width="28" height="28">ViMoxPC<span class="ver">v1.0.1</span><span class="official-tag">官方站</span></a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#what">这是什么</a>
+      <a href="#features">功能</a>
+      <a href="#tech">技术</a>
+      <a href="#why">为什么选它</a>
+      <a href="#cases">场景</a>
+      <a href="#free">免费与授权</a>
+      <a href="#security">安全</a>
+      <a href="#require">系统要求</a>
+      <a href="#faq">常见问题</a>
+      <a href="#terms">条款声明</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-ghost btn-sm" href="https://github.com/awde432/AWDE432.github.io" target="_blank" rel="noopener" title="查看 GitHub 仓库主页"><svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg><span class="gh-repo-text">去往仓库</span></a>
+      <a class="btn btn-primary btn-sm" href="#download">获取软件</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">ViMoxPC 官方发布页 · 局域网远程控制 · Windows 桌面端</p>
+    <h1>把另一台电脑，<br><span class="thin">变成你面前的这一台。</span></h1>
+    <p class="hero-official">本页面为 <b>ViMoxPC 官方唯一发布渠道</b>。软件由独立开发者（GitHub 账号 awde432）开发并维护，无代理商、无第三方分发；版本、哈希与安全检测报告均在本页公开可查。</p>
+    <p class="lede">ViMoxPC 是一款面向<b>局域网</b>的远程控制软件：在同一网络内，你可以在自己的屏幕上看到并操作另一台电脑，传文件、做演示与维护——不需要公网、不需要额外中转服务器。软件需使用 GitHub 账号登录，且一次只与一台设备建立连接。</p>
+
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#download">获取 ViMoxPC 1.0.1</a>
+      <a class="btn btn-ghost" href="#what">先看它到底是什么</a>
+    </div>
+    <p class="hero-note">64 位 Windows 10 稳定运行 · Windows 11 可运行但稳定性较差 · 需 GitHub 账号登录 · 免费使用 · 无广告</p>
+
+    <dl class="factrow">
+      <div class="fact"><dt>软件版本</dt><dd>1.0.1<small>当前正式版</small></dd></div>
+      <div class="fact"><dt>使用费用</dt><dd>免费<small>无内购、无订阅</small></dd></div>
+      <div class="fact"><dt>账号要求</dt><dd>需要登录<small>GitHub 账号</small></dd></div>
+      <div class="fact"><dt>是否含广告</dt><dd>无广告<small>无弹窗、无捆绑</small></dd></div>
+      <div class="fact"><dt>运行平台</dt><dd>Windows 10<small>64 位 · 推荐</small></dd></div>
+      <div class="fact"><dt>连接方式</dt><dd>一对一<small>同一局域网 · 一次一台</small></dd></div>
+    </dl>
+
+    <div class="hero-easter" id="heroEaster" aria-hidden="true">
+      <span class="egg-time" id="eggClock">00:00:00</span>
+      <span id="eggText">Good morning！欢迎查看</span>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="quick">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="num">01</div>
+      <div>
+        <h2>官方说明：先回答几个常见问题</h2>
+        <p class="section-sub">以下均为官方公开的产品事实，可在本页、GitHub Release 与安装包哈希中核验，不是宣传话术。</p>
+      </div>
+    </div>
+
+    <div class="qa-grid">
+      <div class="qa">
+        <p class="qa-q"><span>Q1</span>它免费吗？</p>
+        <p class="qa-a">免费。<span class="badge yes">免费使用</span> 软件本体不收费，没有会员、没有功能锁、没有"专业版"。你不需要为连接台数、传输速度或时长额外付费。</p>
+      </div>
+      <div class="qa">
+        <p class="qa-q"><span>Q2</span>需要注册或登录账号吗？</p>
+        <p class="qa-a">需要登录。<span class="badge no">GitHub 账号</span> 软件启动后必须先通过 GitHub OAuth 授权登录才能使用：点击「使用 GitHub 账号登录」，在浏览器完成授权后，再按提示选择「我是第一次使用」或「我是来更新程序的」。账号数据保存在你的本机数据目录；未注册 GitHub 账号需先前往 GitHub 注册。</p>
+      </div>
+      <div class="qa">
+        <p class="qa-q"><span>Q3</span>里面有没有广告或捆绑？</p>
+        <p class="qa-a">没有。<span class="badge no">无广告</span> 没有开屏广告、没有弹窗推广、没有"推荐安装"的第三方软件，也不会静默安装任何附加程序。</p>
+      </div>
+      <div class="qa">
+        <p class="qa-q"><span>Q4</span>需要公网 IP 或购买服务器吗？</p>
+        <p class="qa-a">不需要。它工作在局域网内，同一网段的设备能互相发现即可。断网环境、机房内网、无外网的教学网络同样可用。</p>
+      </div>
+      <div class="qa">
+        <p class="qa-q"><span>Q5</span>我的屏幕和文件会被上传到别人那里吗？</p>
+        <p class="qa-a">不会。画面与文件在<b>你与被控设备之间直接传输</b>，不经过第三方内容服务器留存。连接需要密码验证，未授权无法接入。</p>
+      </div>
+      <div class="qa">
+        <p class="qa-q"><span>Q6</span>它能同时管几台电脑？</p>
+        <p class="qa-a">一次<strong>只连接一台</strong>设备。它是典型的"一对一"远程控制：控制端与被控端建立一条连接，断开后才能连下一台。设备列表保存的是你连接过的设备记录，用来免去重复输入地址，不代表可以同时多路并发。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section alt" id="what">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="num">02</div>
+      <div>
+        <h2>它到底是什么，以及它不是什么</h2>
+        <p class="section-sub">很多远程软件的问题不在于功能不够，而在于定位模糊。我们把边界写清楚，避免你装完才发现不合适。</p>
+      </div>
+    </div>
+
+    <div class="def-grid">
+      <div>
+        <p class="lede">一句话定义：<b>ViMoxPC 是运行在 Windows 上的局域网远程控制工具</b>——由「被控端」和「控制端」两部分组成，被控端开放屏幕与操作权限，控制端在另一台电脑上查看并操作它。</p>
+
+        <ul class="def-list">
+          <li><b>它是一套局域网方案。</b>设备通过局域网广播相互发现，连接在本地网络内完成，不依赖公网中转。</li>
+          <li><b>它是双向的。</b>任何一台电脑都可以既是控制端、又是被控端，取决于你打开哪个角色；但同一时刻只维持一条连接。</li>
+          <li><b>它是桌面级工具。</b>面向的是"人坐在电脑前操作另一台电脑"，不是设备远程唤醒、不是手机端控制、不是云桌面。</li>
+          <li><b>它把文件传输做在同一个界面里。</b>不需要另开网盘、FTP 或聊天软件传文件。</li>
+          <li><b>它不需要你懂网络配置。</b>不需要端口映射、不需要 DDNS、不需要改路由器。</li>
+        </ul>
+      </div>
+
+      <aside class="panel">
+        <h4>它不是什么（诚实说明）</h4>
+        <p>ViMoxPC <b>不是</b>公网远程控制：如果你的两台设备不在同一局域网、也没有任何互通手段，它无法建立连接。</p>
+        <p>它 <b>不是</b>多路并发工具：一次只能连接一台设备，不存在"多台画面同时铺开"的能力。</p>
+        <p>它 <b>不是</b>云服务：没有网页控制台，也没有"登录后从任何地方访问"的能力。</p>
+        <p>它 <b>不是</b>监控软件：没有隐身运行、没有后台抓屏上传、没有"家长控制"式的偷偷记录。被控端在运行中是<b>可见、可退出</b>的。</p>
+        <p>它 <b>不是</b>手机 App：目前只提供 Windows 桌面端。</p>
+      </aside>
+    </div>
+
+    
+    <div class="vimox-3d-sec" id="vimox3d">
+      <div class="model-head">
+        <h3>界面模型：拖拽旋转查看</h3>
+        <p class="model-sub">下面是用真实 HTML 1:3 还原度还原的 ViMoxPC 主界面。按住鼠标或手指拖动即可旋转这个立体模型，滚轮缩放已锁定，双击还原视角。</p>
+      </div>
+      <div class="vimox-stage" id="vimoxStage">
+        <div class="vimox-wrap" id="vimoxWrap">
+          <div class="vimox-model" id="vimoxModel">
+            <div class="vimox-face front">
+              <div class="vm-app">
+                <aside class="vm-side">
+                  <div class="vm-user">
+                    <div class="vm-avatar">v</div>
+                    <div class="vm-uname">vimoxpc用户</div>
+                    <div class="vm-warn">⚠️ 偶发崩溃属已知风险，请留意</div>
+                    <div class="vm-online">● 在线</div>
+                    <div class="vm-tip">❗ 隐藏滚动条的页面可用滚轮滑动</div>
+                    <div class="vm-profile">个人中心</div>
+                  </div>
+                  <ul class="vm-menu">
+                    <li class="active"><span class="ic">🖥️</span>远程控制</li>
+                    <li><span class="ic">📱</span>设备列表</li>
+                    <li><span class="ic">🔍</span>扫码</li>
+                    <li><span class="ic">✋</span>识别手势</li>
+                    <li><span class="ic">🛡️</span>设备连接安全</li>
+                    <li><span class="ic">🚨</span>攻击与检测</li>
+                    <li><span class="ic">⚙️</span>端口设置</li>
+                    <li><span class="ic">🛠️</span>高级设置</li>
+                    <li><span class="ic">📄</span>版权信息</li>
+                    <li><span class="ic">📜</span>用户使用条纹</li>
+                    <li><span class="ic">❓</span>帮助与提示</li>
+                    <li><span class="ic">🗃️</span>工作箱</li>
+                  </ul>
+                </aside>
+                <main class="vm-content">
+                  <h2 class="vm-title">远程控制</h2>
+                  <div class="vm-card">
+                    <div class="vm-card-head"><h3>权限设置</h3><span class="pill on">已开启</span></div>
+                    <p class="vm-desc">允许控制本设备</p>
+                  </div>
+                  <div class="vm-card">
+                    <div class="vm-card-head"><h3>密码设置</h3></div>
+                    <p class="vm-sub">连接密码</p>
+                    <div class="vm-seg"><span>允许密码</span><span class="on">无需密码</span></div>
+                    <p class="vm-desc">密码要求：8-10 位字符，需包含字母、数字和特殊符号；符号仅支持美式符号 ! @ # _ + = 0 ^ $ ¥。</p>
+                    <p class="vm-desc">当前密码：未设置</p>
+                  </div>
+                  <div class="vm-link">🌐 查看本机网络信息</div>
+                  <div class="vm-card">
+                    <div class="vm-card-head"><h3>连接方式</h3></div>
+                    <div class="vm-tabs"><span class="on">局域网扫描</span><span>IP地址</span></div>
+                    <p class="vm-desc">扫描局域网内的viMoxPC...</p>
+                    <div class="vm-input" title="输入要连接的用户名称">输入要连接的用户名称</div>
+                    <div class="vm-cta">开始扫描并连接</div>
+                  </div>
+                </main>
+              </div>
+            </div>
+            <div class="vimox-face back"><img class="back-mark" src="https://awde432.github.io/assets/vimoxPC.ico" alt="ViMoxPC" style="width:150px;height:150px;object-fit:contain;filter:drop-shadow(0 0 16px rgba(47,127,214,.45))"><div class="back-name">ViMoxPC</div><div class="back-sub">Remote Desktop · LAN</div></div>
+            <div class="vimox-edge l"></div>
+            <div class="vimox-edge r"></div>
+            <div class="vimox-edge t"></div>
+            <div class="vimox-edge b"></div>
+          </div>
+        </div>
+        <div class="vimox-floor"></div>
+      </div>
+      <p class="vimox-hint">← 按住拖动旋转 &nbsp;·&nbsp; 双击还原视角 →</p>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="num">03</div>
+      <div>
+        <h2>核心功能：每一项能为你做什么</h2>
+        <p class="section-sub">下面 10 项功能按"解决什么问题"组织。每项都写清了它能做什么、在什么情况下有用，以及它的能力边界。</p>
+      </div>
+    </div>
+
+    <div class="feat-grid">
+
+      <article class="feat">
+        <p class="feat-idx">功能 01</p>
+        <h3>实时屏幕监控</h3>
+        <p>把被控电脑的屏幕画面实时呈现在你的窗口里，一台一台地看。适合远程排障时先"看清现场"，再决定要不要接管操作。</p>
+        <ul class="feat-meta">
+          <li><span class="k">解决</span><span>不用走过去，也能知道对方屏幕上是什么</span></li>
+          <li><span class="k">典型用法</span><span>连接成功后先看画面，确认状态再动手</span></li>
+          <li><span class="k">边界</span><span>画面以 JPEG 压缩传输，清晰度与流畅度受局域网带宽影响</span></li>
+        </ul>
+      </article>
+
+      <article class="feat">
+        <p class="feat-idx">功能 02</p>
+        <h3>远程操作控制</h3>
+        <p>不只是看，还能直接操控对方的鼠标和键盘：单击、双击、右键、拖拽、滚动，以及组合键与常用快捷键输入。操作手感接近本机，适合远程帮人解决问题、远程演示某个操作步骤。</p>
+        <ul class="feat-meta">
+          <li><span class="k">解决</span><span>电话里说不清楚的操作，直接替对方做一遍</span></li>
+          <li><span class="k">典型用法</span><span>远程指导、远程演示、远程排障</span></li>
+          <li><span class="k">边界</span><span>需要被控端授予控制权限后才能操作</span></li>
+        </ul>
+      </article>
+
+      <article class="feat">
+        <p class="feat-idx">功能 03</p>
+        <h3>双向文件传输</h3>
+        <p>在控制端与被控端之间互传文件：既可以把本地文件推送到对方电脑，也可以把对方电脑上的文件取回本地。走的是同一局域网链路，速度取决于你的网络环境，大文件不必再找 U 盘或中转盘。</p>
+        <ul class="feat-meta">
+          <li><span class="k">解决</span><span>机房分发资料、回收作业、传大文件</span></li>
+          <li><span class="k">典型用法</span><span>逐台分发资料 / 逐台回收文件</span></li>
+          <li><span class="k">边界</span><span>传输目标目录需可写；受剩余空间限制</span></li>
+        </ul>
+      </article>
+
+      <article class="feat">
+        <p class="feat-idx">功能 04</p>
+        <h3>设备自动发现</h3>
+        <p>在同一局域网内，软件会自动把在线设备列出来，你从列表里点一下就能发起连接，不需要手工记 IP、不需要逐个输入地址。设备换 IP、重启后重新上线，也会重新出现在列表里。</p>
+        <ul class="feat-meta">
+          <li><span class="k">解决</span><span>不用维护一张"哪台机器是哪个 IP"的表格</span></li>
+          <li><span class="k">典型用法</span><span>新机器接入即被发现，随开随用</span></li>
+          <li><span class="k">边界</span><span>需在同一网段；部分网络会限制广播</span></li>
+        </ul>
+      </article>
+
+      <article class="feat">
+        <p class="feat-idx">功能 05</p>
+        <h3>设备记录与快速连接</h3>
+        <p>连接过的设备会被记录下来，下次直接从列表里选中即可再次连接，不用重新回忆 IP 与端口。注意：这是"历史记录 + 免输入"，不是多路并发——同一时刻仍然只维持一条连接。</p>
+        <ul class="feat-meta">
+          <li><span class="k">解决</span><span>重复输入地址、记不住哪台是哪台</span></li>
+          <li><span class="k">典型用法</span><span>固定几台机器之间来回使用</span></li>
+          <li><span class="k">边界</span><span>一次只连一台，切换设备需先断开当前连接</span></li>
+        </ul>
+      </article>
+
+      <article class="feat">
+        <p class="feat-idx">功能 06</p>
+        <h3>连接密码验证</h3>
+        <p>发起连接需要校验密码，密码正确后<b>还需要被控端本人确认授权</b>才会真正建立连接。每台设备的连接密码由本机独立生成、保存在本机，开发者服务器不存储你的密码。另外还有"无需密码"模式，但这意味着任何知道你 IP 的人都能向你发起请求，是否被控制取决于你是否点了"允许"，风险请自行判断。</p>
+        <ul class="feat-meta">
+          <li><span class="k">解决</span><span>防止局域网内其他人随意接入你的电脑</span></li>
+          <li><span class="k">典型用法</span><span>每台机器独立密码 + 被控端人工确认</span></li>
+          <li><span class="k">边界</span><span>密码强度由使用者负责；忘记密码可在"设备连接安全"中重设</span></li>
+        </ul>
+      </article>
+
+      <article class="feat">
+        <p class="feat-idx">功能 07</p>
+        <h3>配置持久化</h3>
+        <p>用户名、密码、网络端口、偏好设置等可以保存下来，下次启动直接沿用，不必每次重新填。对需要长期固定部署的机房机器来说，这一步能省掉大量重复劳动。</p>
+        <ul class="feat-meta">
+          <li><span class="k">解决</span><span>每次启动都要重新配置</span></li>
+          <li><span class="k">典型用法</span><span>批量部署同一套配置</span></li>
+          <li><span class="k">边界</span><span>配置保存在本机，重装系统前请注意备份</span></li>
+        </ul>
+      </article>
+
+      <article class="feat">
+        <p class="feat-idx">功能 08</p>
+        <h3>操作日志记录</h3>
+        <p>关键动作会被记录下来，方便回溯"谁在什么时候连过哪台机器、做过什么"。出现问题时可查、可追；在需要交代操作过程的场合，日志就是凭据。</p>
+        <ul class="feat-meta">
+          <li><span class="k">解决</span><span>事后无从追溯</span></li>
+          <li><span class="k">典型用法</span><span>运维留痕、教学管理核查</span></li>
+          <li><span class="k">边界</span><span>日志存放于本地，请自行做好留存与保护</span></li>
+        </ul>
+      </article>
+
+      <article class="feat">
+        <p class="feat-idx">功能 09</p>
+        <h3>紧急断开与断开控制</h3>
+        <p>远程连接期间，被控端随时可以终止连接：点击"断开"按钮，或<b>连续按下两次 ESC+F12</b>，即可立即切断所有远程操作。控制权始终在被控端手里，这一点是刻意设计的。</p>
+        <ul class="feat-meta">
+          <li><span class="k">解决</span><span>发现被异常连接时，要能立刻切断</span></li>
+          <li><span class="k">典型用法</span><span>被控端一键/快捷键紧急断开</span></li>
+          <li><span class="k">边界</span><span>断开后需重新发起连接并再次验证</span></li>
+        </ul>
+      </article>
+
+      <article class="feat">
+        <p class="feat-idx">功能 10</p>
+        <h3>官方安装包分发</h3>
+        <p>软件通过<b>官方安装包</b>分发：从官方渠道取得安装包后，按安装向导完成安装即可使用，无需你自己配置 Python 环境或手动安装依赖。请只使用官方发布的安装包，来源不明的"绿色版""破解版"可能被二次打包。</p>
+        <ul class="feat-meta">
+          <li><span class="k">解决</span><span>自己配运行环境容易出错</span></li>
+          <li><span class="k">典型用法</span><span>官方安装包 + 安装向导一步装好</span></li>
+          <li><span class="k">边界</span><span>需按向导完成安装；请勿使用来源不明的第三方打包版本</span></li>
+        </ul>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+<section class="section alt" id="tech">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="num">04</div>
+      <div>
+        <h2>它建立在什么技术之上</h2>
+        <p class="section-sub">技术选型不是给你看的参数，而是直接决定"快不快、稳不稳、装不装得上"。下面每一项技术后面，都写清了它对使用者的实际意义。</p>
+      </div>
+    </div>
+
+    <div class="tbl-scroll">
+      <table class="tbl">
+        <caption>ViMoxPC 1.0.1 技术构成与用户收益对照</caption>
+        <thead>
+          <tr><th style="width:180px">技术构成</th><th style="width:34%">它的作用</th><th>对你意味着什么</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>局域网直达链路</b><br><span class="badge">直连</span></td>
+            <td>控制端与被控端在同一网络内直接建立数据通道，画面与文件不做公网绕行。</td>
+            <td>延迟低、速度快，且数据不经过第三方内容服务器留存。机房、教室这类内网环境尤其合适。</td>
+          </tr>
+          <tr>
+            <td><b>UDP 广播设备发现</b></td>
+            <td>被控端周期性广播自身存在，控制端接收后自动列出可用设备。</td>
+            <td>不用记 IP、不用建表、不用手工添加。设备上线即出现在列表里。</td>
+          </tr>
+          <tr>
+            <td><b>逐帧采集 + JPEG 压缩</b></td>
+            <td>按设定帧率抓取整屏画面，压缩为 JPEG 后发送；画质档位与帧率可在设置中调整。</td>
+            <td>实现简单、兼容性好。不做增量差分，因此高动态画面下的带宽占用会更高。</td>
+          </tr>
+          <tr>
+            <td><b>屏幕采集方式</b></td>
+            <td>基于 mss 采集库逐帧抓取屏幕，默认 15 fps，画质档位默认 75。</td>
+            <td>不依赖特定显卡驱动，兼容性优先；被控端 CPU 占用会随帧率与分辨率上升。</td>
+          </tr>
+          <tr>
+            <td><b>PySide6 / Qt 桌面框架</b></td>
+            <td>界面层采用成熟桌面框架构建，原生窗口控件而非套壳浏览器。</td>
+            <td>打开就是桌面程序的样子，不占额外浏览器进程，窗口响应跟手。</td>
+          </tr>
+          <tr>
+            <td><b>安装包封装</b></td>
+            <td>运行时与依赖随安装包一并部署，由安装向导写入目标机器。</td>
+            <td>不用自己配环境，按向导装好即可运行。</td>
+          </tr>
+          <tr>
+            <td><b>被控端显式授权</b></td>
+            <td>密码校验通过后，仍须被控端本人确认"允许"才建立会话。</td>
+            <td>能不能被连上，最终决定权在被控设备那一端。</td>
+          </tr>
+          <tr>
+            <td><b>连接口令校验</b></td>
+            <td>建立会话前校验口令，未通过不下发画面与操作指令。</td>
+            <td>同一局域网里的其他人无法随意接入你的电脑。</td>
+          </tr>
+          <tr>
+            <td><b>GitHub 账号 ID 云端比对</b><br><span class="badge">合规披露</span></td>
+            <td>首次使用及之后每次启动，会把 GitHub 账号数字 ID 提交到开发者云端，用于设备注册与黑名单比对。</td>
+            <td>这是软件唯一的云端通信。仅用于安全防护（反盗版与拦截恶意连接），不收集你的连接内容与操作记录。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cols-3" style="margin-top:var(--s6)">
+      <div class="panel">
+        <h4>为什么用局域网直连，而不是公网中转</h4>
+        <p>公网中转意味着你的画面要经过一台你并不拥有的服务器。局域网直连把这台服务器去掉了：更快，也更少一个需要信任的对象。需要说明的是，程序仍会向开发者云端提交 GitHub 账号数字 ID 用于设备注册与黑名单比对，这是唯一的云端通信。</p>
+      </div>
+      <div class="panel">
+        <h4>为什么需要登录账号</h4>
+        <p>登录使用 GitHub OAuth 授权，以你的 GitHub 账号数字 ID 作为身份标识，用于设备注册与黑名单比对。个人资料、已保存的设备记录、设置与连接日志保存在本机数据目录，登录先把这些数据对号入座，避免把甲机器的记录混进乙用户的目录。</p>
+      </div>
+      <div class="panel">
+        <h4>为什么坚持原生桌面界面</h4>
+        <p>远程控制是长时间挂着用的工具。原生控件在窗口缩放、输入法等细节上更稳，不会出现"套壳窗口"常见的错位问题。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="why">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="num">05</div>
+      <div>
+        <h2>同类工具那么多，凭什么选它</h2>
+        <p class="section-sub">公平起见，这里不做贬低式对比。下面只陈述"在什么条件下 ViMoxPC 是更合适的选择"，以及"在什么条件下它不是"。</p>
+      </div>
+    </div>
+
+    <div class="tbl-scroll">
+      <table class="tbl cmp">
+        <colgroup><col style="width:26%"><col class="hl" style="width:26%"><col style="width:24%"><col style="width:24%"></colgroup>
+        <caption>按使用条件对比（√ 表示该方案在此条件下合适）</caption>
+        <thead>
+          <tr><th>使用条件</th><th class="hl">ViMoxPC</th><th>公网远程软件</th><th>即时通讯工具自带远程</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>设备在同一局域网</td><td class="y hl">最合适</td><td>可用，但绕远路</td><td>可用</td></tr>
+          <tr><td>机房 / 教室内网，无外网</td><td class="y hl">可用</td><td class="n">不可用</td><td class="n">不可用</td></tr>
+          <tr><td>不想绑定平台账号</td><td class="n">需 GitHub 账号</td><td class="n">需平台账号</td><td class="n">需平台账号</td></tr>
+          <tr><td>用官方安装包正常安装使用</td><td class="y hl">满足</td><td class="y">满足</td><td class="y">满足</td></tr>
+          <tr><td>要同时看多台设备画面</td><td class="n">不支持（一对一）</td><td>一般不便于多开</td><td class="n">一次一台</td></tr>
+          <tr><td>要求画面不经第三方服务器</td><td class="y hl">局域网直达</td><td class="n">经中转服务器</td><td class="n">经平台服务器</td></tr>
+          <tr><td>不在同一网络、需跨公网</td><td class="n">不适用</td><td class="y">适用</td><td class="y">适用</td></tr>
+          <tr><td>需要用手机控制电脑</td><td class="n">不适用</td><td class="y">部分支持</td><td class="y">部分支持</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cols-2" style="margin-top:var(--s6)">
+      <div class="panel" style="border-left-color:var(--ok)">
+        <h4>选它的六个理由</h4>
+        <ul class="bullets">
+          <li><b>不依赖公网。</b>没有外网、没有公网 IP 的内网环境照样用。</li>
+          <li><b>账号需 GitHub 授权。</b>使用 GitHub 账号 OAuth 登录，个人数据保存在本机，不额外收集手机号、邮箱。</li>
+          <li><b>不收费。</b>完整功能直接可用，不存在"用两周再交钱"。</li>
+          <li><b>不捆绑。</b>没有广告、没有附带软件、没有开机自启的推广进程。</li>
+          <li><b>官方安装包交付。</b>从官方渠道拿到安装包，按向导装好即可，不用自己配环境。</li>
+          <li><b>连接可控。</b>密码 + 被控端人工确认双重把关，被控端还能一键/快捷键紧急断开。</li>
+        </ul>
+      </div>
+      <div class="panel" style="border-left-color:var(--ink-300)">
+        <h4>什么情况下不要选它</h4>
+        <ul class="bullets">
+          <li>两台电脑分处不同城市、不同网络，且没有任何互通方式。</li>
+          <li>你需要用手机或平板来控制电脑。</li>
+          <li>你需要设备关机状态下的远程唤醒或无人值守开机。</li>
+          <li>你需要云端控制台、审计报表这类企业级集中管理能力。</li>
+          <li>你的使用环境禁止任何远程控制类软件（请遵守所在单位规定）。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section alt" id="spec">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="num">06</div>
+      <div>
+        <h2>规格、性能与能力上限</h2>
+        <p class="section-sub">把可以量化的部分都列出来。以下为软件当前默认参数，实际表现会随网络质量、设备性能与被控端负载而变。</p>
+      </div>
+    </div>
+
+    <div class="cols-2">
+      <div>
+        <h3>产品规格</h3>
+        <div class="tbl-scroll">
+          <table class="tbl">
+            <tbody>
+              <tr><th style="width:44%">软件名称</th><td>ViMoxPC（ViMox 远程控制系统）</td></tr>
+              <tr><th>当前版本</th><td>1.0.1</td></tr>
+              <tr><th>软件类型</th><td>局域网远程控制 / 桌面工具</td></tr>
+              <tr><th>交付形态</th><td>官方安装包，安装后运行</td></tr>
+              <tr><th>运行平台</th><td>64 位 Windows 10（稳定运行）；64 位 Windows 11（可运行，稳定性较差）</td></tr>
+              <tr><th>角色构成</th><td>被控端（提供服务）+ 控制端（发起连接）</td></tr>
+              <tr><th>网络环境</th><td>同一局域网 / 同一网段</td></tr>
+              <tr><th>账号要求</th><td>需要登录（GitHub 账号；云端登记账号数字 ID，见隐私政策）</td></tr>
+              <tr><th>界面语言</th><td>简体中文</td></tr>
+              <tr><th>使用费用</th><td>免费</td></tr>
+              <tr><th>广告与捆绑</th><td>无</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div>
+        <h3>性能指标（典型口径）</h3>
+        <div class="tbl-scroll">
+          <table class="tbl">
+            <thead><tr><th style="width:44%">项目</th><th>指标</th></tr></thead>
+            <tbody>
+              <tr><th>画面采集帧率</th><td>默认 15 fps（采集参数可调整，非固定 60 fps）</td></tr>
+              <tr><th>画面编码</th><td>JPEG 压缩传输，画质档位默认 75</td></tr>
+              <tr><th>操作响应</th><td>随局域网质量变化，不设固定延迟承诺</td></tr>
+              <tr><th>文件传输速度</th><td>受局域网带宽与磁盘读写制约</td></tr>
+              <tr><th>分辨率</th><td>适配被控端当前系统分辨率</td></tr>
+              <tr><th>断线处理</th><td>不自动重连，需重新发起连接；被控端可紧急断开</td></tr>
+              <tr><th>并发设备</th><td>一对一，一次一台</td></tr>
+              <tr><th>安装依赖</th><td>随官方安装包一并部署</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:.8125rem;color:var(--ink-500);margin-top:var(--s3)">说明：画面采集参数取自软件当前默认配置，实际观感受网络质量、被控端负载与画质设置影响，本站不对任何单一环境作出性能承诺。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="cases">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="num">07</div>
+      <div>
+        <h2>谁在用，用来解决什么</h2>
+        <p class="section-sub">它的设计目标集中在"同一个网络里的电脑"。以下三个场景覆盖了绝大多数实际使用方式。</p>
+      </div>
+    </div>
+
+    <div class="case-grid">
+      <article class="case">
+        <span class="role">场景 01 · 个人</span>
+        <h3>家里两台电脑互操作</h3>
+        <dl>
+          <dt>痛点</dt><dd>台式机在书房、笔记本在客厅，来回搬文件、来回切设备很麻烦。</dd>
+          <dt>做法</dt><dd>同一 Wi‑Fi 下互相发现，偶尔需要操作对方电脑时直接连过去。</dd>
+          <dt>收益</dt><dd>不用装网盘同步，不用来回跑，随用随连。</dd>
+        </dl>
+      </article>
+
+      <article class="case">
+        <span class="role">场景 02 · 支持</span>
+        <h3>给家人朋友做远程协助</h3>
+        <dl>
+          <dt>痛点</dt><dd>电话里"你点那个按钮"说了十遍，对方还是找不到。</dd>
+          <dt>做法</dt><dd>在同一网络下连过去，直接替对方把设置改完，边做边讲。</dd>
+          <dt>收益</dt><dd>沟通成本几乎归零，也避免让对方安装一堆陌生软件。</dd>
+        </dl>
+      </article>
+
+      <article class="case">
+        <span class="role">场景 03 · 部署</span>
+        <h3>内网设备统一配置</h3>
+        <dl>
+          <dt>痛点</dt><dd>一批新机器要装同一套软件、做同一套设置。</dd>
+          <dt>做法</dt><dd>在每台机器上安装官方安装包，再通过文件传输下发配置与资料。</dd>
+          <dt>收益</dt><dd>不需要域控、不需要额外部署工具，临时任务也能快速完成。</dd>
+        </dl>
+      </article>
+    </div>
+  </div>
+</section>
+
+
+<section class="section alt" id="service">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="num">08</div>
+      <div>
+        <h2>你获得的不只是软件，还有这些服务</h2>
+        <p class="section-sub">一个免费工具值不值得长期用，很大程度取决于"出问题时有没有人管"。以下是围绕 ViMoxPC 提供的配套服务。</p>
+      </div>
+    </div>
+
+    <div class="cols-3">
+      <div class="panel">
+        <h4>使用说明</h4>
+        <p>本站提供功能逐项解释、系统要求与常见问题处理说明，软件内也提供「远程桌面帮助」等操作提示。遇到问题先查这些说明，多数情况能自助解决。</p>
+      </div>
+      <div class="panel">
+        <h4>持续更新</h4>
+        <p>版本持续迭代，修复缺陷、优化传输表现、补充功能。站内「更新日志」会如实记录每个版本改了什么。</p>
+      </div>
+      <div class="panel">
+        <h4>问题反馈</h4>
+        <p>发现缺陷或有功能建议，可通过软件内「投诉与反馈」写明的网址向作者反馈。描述问题时附上系统版本与复现步骤，处理会更快。</p>
+      </div>
+      <div class="panel">
+        <h4>使用答疑</h4>
+        <p>对部署方式、网络环境、批量使用有疑问，可通过软件内「投诉与反馈」的网址提出。机房、教室这类成规模的部署，建议先沟通再铺开。</p>
+      </div>
+      <div class="panel">
+        <h4>场景化建议</h4>
+        <p>不同网络结构（交换机划分 VLAN、无线覆盖、跨网段）对设备发现的限制不同，可通过同一渠道提出，作者会给出针对性建议。</p>
+      </div>
+    </div>
+
+    <div class="notice" style="margin-top:var(--s6)">
+      <h3>关于服务边界</h3>
+      <p>ViMoxPC 由个人开发者维护，服务以<b>文档 + 反馈响应</b>为主，不提供 7×24 值守、不承诺固定响应时长、不签署服务等级协议（SLA）。如果你的场景要求厂商级保障，请在采用前先确认这一点。</p>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="free">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="num">09</div>
+      <div>
+        <h2>费用、授权与商业使用</h2>
+        <p class="section-sub">这是最容易被含糊处理的部分，因此单独用一章说清：什么免费、免费到什么程度、什么情况需要先联系作者。</p>
+      </div>
+    </div>
+
+    <div class="cols-2">
+      <div>
+        <h3>费用说明</h3>
+        <ul class="bullets">
+          <li><b>软件本体免费。</b>下载即用完整功能，不存在"高级版解锁"。</li>
+          <li><b>没有订阅。</b>不需要按月或按年付费，不存在到期停用。</li>
+          <li><b>没有功能锁。</b>文件传输、设备记录与设置等功能不设付费门槛。</li>
+          <li><b>没有内购。</b>程序内不存在任何付费入口。</li>
+          <li><b>不收数据。</b>不会用"免费"换取你的数据或行为记录。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>授权范围</h3>
+        <ul class="bullets">
+          <li><b>个人使用：</b>个人电脑之间互连，直接使用即可。</li>
+          <li><b>教学使用：</b>学校、培训机构在教室与机房内使用，可直接使用。</li>
+          <li><b>企业内部使用：</b>公司内网运维使用，可直接使用。</li>
+          <li><b>随软件分发：</b>不得将本软件打包进其他产品或安装镜像对外分发。</li>
+          <li><b>商业转售：</b>不得以任何形式转售、出租、收费代理本软件。</li>
+          <li><b>定制与集成：</b>需要定制功能或集成到自有系统，请先联系作者协商。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="notice" style="margin-top:var(--s6)">
+      <h3>一句话总结</h3>
+      <p>自己用、教学用、公司内网用——<b>免费，不需要打招呼</b>。想拿它做产品、做服务卖给别人、或者打包进你分发的东西里——<b>请先联系作者</b>。</p>
+    </div>
+  </div>
+</section>
+
+
+<section class="section alt" id="privacy-brief">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="num">10</div>
+      <div>
+        <h2>账号、数据与广告：一次讲透</h2>
+        <p class="section-sub">使用者最常问的三个问题——要不要登录、数据去哪了、有没有广告——在这里集中回答。</p>
+      </div>
+    </div>
+
+    <div class="tbl-scroll">
+      <table class="tbl">
+        <thead><tr><th style="width:22%">项目</th><th style="width:20%">结论</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td><b>注册账号</b></td><td class="n">需要</td><td>需先拥有 GitHub 账号：通过 GitHub OAuth 授权登录，未注册需前往 GitHub 注册。</td></tr>
+          <tr><td><b>登录</b></td><td class="n">需要</td><td>启动后需登录：点击「使用 GitHub 账号登录」完成 OAuth 授权，再按提示选「我是第一次使用」或「我是来更新程序的」。</td></tr>
+          <tr><td><b>账号类型</b></td><td>GitHub 账号</td><td>身份标识为 GitHub 账号数字 ID；个人资料、设备记录、设置、连接日志保存在本机数据目录。</td></tr>
+          <tr><td><b>云端账号标识</b></td><td>有</td><td>首次使用及之后每次启动，会把 GitHub 账号数字 ID 提交开发者云端登记，用于设备注册、反盗版与黑名单比对（唯一用途）。</td></tr>
+          <tr><td><b>个人信息收集</b></td><td class="n">不收集</td><td>不采集姓名、手机号、身份证件等身份信息；不收集连接内容与操作记录。</td></tr>
+          <tr><td><b>画面与文件</b></td><td class="y">本地直传</td><td>仅在控制端与被控端之间传输，不上传至第三方内容服务器做留存。</td></tr>
+          <tr><td><b>连接密码</b></td><td class="y">本地保管</td><td>每台设备的连接密码由本机独立生成并保存在本机，开发者服务器不存储你的密码。</td></tr>
+          <tr><td><b>使用行为分析</b></td><td class="n">无</td><td>不接入第三方统计 SDK，不上报操作行为埋点。</td></tr>
+          <tr><td><b>广告</b></td><td class="y">无</td><td>没有开屏、弹窗、横幅或"信息流"广告。</td></tr>
+          <tr><td><b>捆绑安装</b></td><td class="y">无</td><td>不附带任何第三方软件，不修改浏览器主页与搜索引擎。</td></tr>
+          <tr><td><b>开机自启</b></td><td class="n">默认关闭</td><td>程序内「基本设置」提供「开机自启动」开关，默认关闭；只有你主动开启后才会写入自启动项。</td></tr>
+          <tr><td><b>Cookie / 站点追踪</b></td><td class="n">无</td><td>本站不投放广告联盟代码，不做跨站追踪。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:.8125rem;color:var(--ink-500);margin-top:var(--s3)">完整的处理规则与你的权利，见下方 <a href="#privacy">隐私政策</a>。</p>
+  </div>
+</section>
+
+
+<section class="section" id="security">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="num">11</div>
+      <div>
+        <h2>安全：它能做什么，不能替你做什么</h2>
+        <p class="section-sub">远程控制类软件天然敏感。这里不喊口号，只讲清机制与责任边界。</p>
+      </div>
+    </div>
+
+    <div class="cols-2">
+      <div>
+        <h3>软件侧提供的保护</h3>
+        <ul class="bullets">
+          <li><b>连接需校验口令。</b>口令不通过，不会建立会话、不会传输画面。</li>
+          <li><b>口令由使用者设定。</b>不由服务端统一下发，可随时更改。</li>
+          <li><b>被控端可见可退出。</b>程序运行时在界面中可见，使用者随时可终止服务。</li>
+          <li><b>不隐藏运行。</b>没有隐身模式、没有后台静默抓屏、没有防卸载机制。</li>
+          <li><b>密码之外还要人工确认。</b>密码校验通过后，被控端仍须点击"允许"才会建立连接。</li>
+          <li><b>紧急断开。</b>连接期间被控端可点"断开"，或连续按两次 ESC+F12 立即切断所有远程操作。</li>
+          <li><b>攻击检测。</b>默认开启攻击检测与黑白名单，拦截恶意连接与骚扰；GitHub 账号数字 ID 进入黑名单后将无法再使用连接功能。</li>
+          <li><b>唯一的云端通信是账号数字 ID 注册。</b>首次使用及每次启动会提交 GitHub 账号数字 ID 用于设备注册与黑名单比对，仅用于安全防护。</li>
+          <li><b>密码不外发。</b>每台设备的连接密码由本机独立生成、本地保管，开发者服务器不存储。</li>
+          <li><b>操作留痕。</b>关键操作写入本地日志（logs.json / security_logs.txt），便于事后核查。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>需要你负责的部分</h3>
+        <ul class="bullets">
+          <li><b>口令强度。</b>请使用足够复杂且不与其他账号重复的口令。</li>
+          <li><b>授权范围。</b>只连接你拥有或已获明确授权的设备。</li>
+          <li><b>合规使用。</b>遵守所在学校、单位关于远程控制软件的管理规定。</li>
+          <li><b>日志与配置保护。</b>本地日志与配置含敏感信息，请妥善保管。</li>
+          <li><b>环境可信。</b>避免在不可信的公共网络上开放被控端。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="notice" style="margin-top:var(--s6)">
+      <h3>严禁用途</h3>
+      <p>ViMoxPC 仅用于<b>合法、已获授权</b>的远程协助、教学演示与设备管理。严禁用于：未经他人同意监视或控制他人设备、窃取数据与隐私、规避单位管理制度、任何违反法律法规的行为。使用者须对自己的使用行为承担全部责任。</p>
+    </div>
+
+    <div class="notice" style="margin-top:var(--s6);background:var(--brand-050);border-color:var(--brand-200);border-left:3px solid var(--ok)">
+      <h3>官方声明</h3>
+      <p>ViMoxPC 为 awde432 独立开发、独立分发的远程控制软件，官方唯一下载渠道为本网站与 GitHub Release。安装前请以本页公布的 SHA256 校验文件完整性，勿从来源不明的渠道获取安装包。</p>
+    </div>
+  </div>
+</section>
+
+
+<section class="section alt" id="require">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="num">12</div>
+      <div>
+        <h2>系统要求与兼容性</h2>
+        <p class="section-sub">安装前请先对照这张表。不满足最低要求的设备上运行，可能出现界面异常或无法连接。</p>
+      </div>
+    </div>
+
+    <div class="cols-2">
+      <div class="tbl-scroll">
+        <table class="tbl">
+          <caption>运行环境</caption>
+          <thead><tr><th style="width:40%">项目</th><th>要求</th></tr></thead>
+          <tbody>
+            <tr><th>推荐系统</th><td>64 位 Windows 10 —— 可稳定运行</td></tr>
+            <tr><th>Windows 11</th><td>可以运行，但<b>稳定性较差</b>，不建议用于教学、运维等正式场景</td></tr>
+            <tr><th>不支持</th><td>32 位 Windows、Windows 7/8、macOS、Linux、Android、iOS</td></tr>
+            <tr><th>处理器</th><td>双核及以上（软件不做强制校验）</td></tr>
+            <tr><th>内存</th><td>建议 4 GB 及以上</td></tr>
+            <tr><th>磁盘空间</th><td>所需空间以安装包大小与运行数据为准</td></tr>
+            <tr><th>显卡</th><td>集成显卡即可，不要求独立显卡或特定驱动</td></tr>
+            <tr><th>网络</th><td>以太网或 Wi‑Fi，需与被控设备处于同一网段</td></tr>
+            <tr><th>权限</th><td>部分环境需以管理员身份运行（如屏幕采集被系统策略限制时）</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div>
+        <h3>兼容性说明</h3>
+        <ul class="bullets">
+          <li><b>跨网段不自动发现。</b>设备落在不同网段（如 VLAN 隔离）时，广播无法到达，需网络侧放通。</li>
+          <li><b>无线网络表现弱于有线。</b>Wi‑Fi 抖动会直接影响画面流畅度与传输速度。</li>
+          <li><b>安全软件可能拦截。</b>部分安全软件会把屏幕采集与广播行为判定为敏感操作，请按提示放行。</li>
+          <li><b>系统缩放会影响坐标。</b>被控端使用高 DPI 缩放时，建议两端缩放设置接近，以获得更精准的操作定位。</li>
+          <li><b>Windows 11 稳定性。</b>在 Win11 上程序可以启动并建立连接，但可能出现异常退出一类不稳定现象，正式使用请优先选 Win10。</li>
+          <li><b>多显示器。</b>软件不提供"选择某个显示器"的开关，画面以被控端当前显示内容为准。</li>
+          <li><b>精简版 / 魔改版系统可能缺少根证书。</b>袖珍版、装机版、网吧版、GHOST 版等被精简过的 Windows，常把系统自带的根证书列表一并删除，并关闭证书自动更新。这类系统上程序可能无法登录服务器、账号身份验证也会失败，排查与修复步骤见下方「常见问题」。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="start">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="num">13</div>
+      <div>
+        <h2>三步开始使用</h2>
+        <p class="section-sub">从安装到建立第一连接，只需要三步，不需要配置路由器或端口映射。</p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <h3>取得程序并放到两台机器上</h3>
+        <p>从官方渠道取得 ViMoxPC 1.0.1 安装包，在两台 Windows 电脑上按安装向导完成安装。</p>
+      </div>
+      <div class="step">
+        <h3>在被控机开启服务、设定口令</h3>
+        <p>启动程序，点击「使用 GitHub 账号登录」完成 OAuth 授权，再选择「我是第一次使用」或「我是来更新程序的」，在需要被远程的那台电脑上开启被控服务，设置连接口令与端口。</p>
+      </div>
+      <div class="step">
+        <h3>在控制端选中设备并连接</h3>
+        <p>在另一台电脑上启动并登录程序，选中目标设备、输入口令发起连接；被控端点击"允许"后，即可查看画面、执行操作或传文件。同一时间只保持一条连接。</p>
+      </div>
+    </div>
+
+    <div class="cols-3" style="margin-top:var(--s7)">
+      <div class="panel">
+        <h4>连不上设备怎么排查</h4>
+        <p>依次确认：两台机器是否在同一网段；被控端服务是否已开启；系统防火墙是否放行了程序；安全软件是否拦截了广播；口令是否输入正确。若电脑使用的是袖珍版、装机版等被精简过的系统，还需确认系统根证书是否完整（见「常见问题」）。</p>
+      </div>
+      <div class="panel">
+        <h4>画面卡顿怎么优化</h4>
+        <p>优先使用有线网络；调低被控端的画质档位与帧率；关闭被控端上占用 CPU 的程序；确认交换机没有拥塞。</p>
+      </div>
+      <div class="panel">
+        <h4>为什么连上后还要对方点"允许"</h4>
+        <p>密码正确只代表你通过了第一道验证，真正建立连接需要被控端本人确认，避免密码外泄时被直接接管。若被控端关闭了"允许控制本设备"，任何连接都会被拒绝。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section alt" id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="num">14</div>
+      <div>
+        <h2>常见问题</h2>
+        <p class="section-sub">按主题分组，共 33 条。点击问题展开答案。</p>
+      </div>
+    </div>
+
+    <div class="faq-group">
+      <h3>费用与授权</h3>
+      <div class="faq">
+        <details class="faq-item"><summary>真的完全免费吗？会不会以后开始收费？</summary><div class="a"><p>当前版本免费使用，无功能限制、无内购、无订阅。后续授权方式如有调整，以作者公布的信息为准。</p></div></details>
+        <details class="faq-item"><summary>公司内部使用需要买授权吗？</summary><div class="a"><p>不需要。公司内网自用（如 IT 远程维护员工电脑）可以直接使用。但不得转售、不得打包进你分发的产品中。</p></div></details>
+        <details class="faq-item"><summary>学校机房部署要提前申请吗？</summary><div class="a"><p>教学使用无需申请。但建议先小范围试运行，确认网络策略允许广播后再整间机房铺开；成规模部署遇到问题时也方便沟通。</p></div></details>
+        <details class="faq-item"><summary>可以拿它做收费的远程支持服务吗？</summary><div class="a"><p>可以把它作为你提供服务的工具，但不得把软件本身收费转售或包装成你的产品对外销售。商业化集成请先联系作者。</p></div></details>
+      </div>
+    </div>
+
+    <div class="faq-group">
+      <h3>账号、登录与隐私</h3>
+      <div class="faq">
+        <details class="faq-item"><summary>为什么需要登录？登录的是什么账号？</summary><div class="a"><p>登录使用<b>GitHub 账号</b>：通过 GitHub OAuth 授权完成服务器身份验证，以 GitHub 账号数字 ID 作为身份标识（用于设备注册与黑名单比对）；个人资料、设备记录、设置与连接日志保存在你自己的电脑上。启动后先点击「使用 GitHub 账号登录」，再按提示选择「我是第一次使用」（全新创建）或「我是来更新程序的」（旧版本数据迁移）。</p></div></details>
+        <details class="faq-item"><summary>什么是"服务器上的 GitHub 账号 ID"？</summary><div class="a"><p>指的是<b>云端账号标识</b>，也就是你的 GitHub 账号<b>数字 ID</b>。软件以 GitHub OAuth 登录，首次使用及之后每次启动时，会把账号数字 ID 提交到开发者云端做设备注册，用于反盗版与黑名单比对——数字 ID 进入黑名单后，该账号将无法继续使用连接功能。GitHub 授权令牌仅保存在本机，客户端不会上传令牌；上传内容不包含你的连接内容与操作记录。</p></div></details>
+        <details class="faq-item"><summary>注销账号会删除云端账号标识吗？</summary><div class="a"><p>不会自动删除。注销只清除本机数据（个人资料、设备列表、设置、连接日志）。如需同时删除云端账号数字 ID，可参照软件内《用户协议》第三条的流程，通过官方用户群（QQ群：1095743124）或软件内「投诉与反馈」写明的网址申请，版权方在 30 个工作日内处理：未列入黑名单的标识彻底删除，已列入黑名单的标识在安全防护必要范围内保留。</p></div></details>
+        <details class="faq-item"><summary>程序会不会偷偷上传我的屏幕？</summary><div class="a"><p>不会。画面只在已通过口令验证的连接中传输，接收方是你指定的那台设备。程序没有隐藏运行模式，也没有后台静默采集行为。</p></div></details>
+        <details class="faq-item"><summary>会用我的电脑做别的事吗（挖矿、代理等）？</summary><div class="a"><p>不会。程序只实现远程控制所需功能，不驻留与功能无关的后台进程；除账号数字 ID 注册外，不与第三方节点通信。</p></div></details>
+        <details class="faq-item"><summary>卸载后会不会有残留？</summary><div class="a"><p>通过安装包正常卸载即可移除程序本体。配置与日志保存在本机数据目录（默认位于 AppData\Roaming\ViMox 下），卸载不会自动清除；如需彻底清理，请手动删除该目录。删除前请确认数据无需保留。</p></div></details>
+      </div>
+    </div>
+
+    <div class="faq-group">
+      <h3>连接与网络</h3>
+      <div class="faq">
+        <details class="faq-item"><summary>两台电脑不在同一个网络，能用吗？</summary><div class="a"><p>不能。设计上依赖局域网互通。若两地之间已有可互通的隧道（如 VPN 组网），且广播能够转发，可视情况使用，但这不属于官方支持的典型场景。</p></div></details>
+        <details class="faq-item"><summary>设备列表里看不到对方，怎么办？</summary><div class="a"><p>按顺序检查：是否同一网段；被控端服务是否已启动；Windows 防火墙是否放行；安全软件是否拦截广播；路由器是否开启了 AP 隔离（无线网络常见）。</p></div></details>
+        <details class="faq-item"><summary>能同时连几台？</summary><div class="a"><p><b>一次一台。</b>ViMoxPC 是"一对一"的远程控制工具：控制端与被控端建立一条连接，要换设备需先断开当前连接。设备列表保存的只是历史连接记录（免去重复输入地址），不代表可以多路并发。</p></div></details>
+        <details class="faq-item"><summary>支持反向连接吗（被控端主动连控制端）？</summary><div class="a"><p>支持由任意一方作为控制端或被控端，取决于你打开哪个角色。具体连接方向以当前版本界面提供的选项为准。</p></div></details>
+        <details class="faq-item"><summary>断线后会自动重连吗？</summary><div class="a"><p>不会自动重连。连接中断后需要重新发起连接、重新验证密码，并由被控端再次确认。这样做是为了避免"断了又自动连回来"带来的不可控风险。</p></div></details>
+        <details class="faq-item"><summary>登录或账号身份验证失败，怎么办？</summary><div class="a"><p>先看一个前提：如果这台电脑<b>能正常上网</b>（能打开网页、能看视频），但程序登录不上、或提示与证书 / 安全连接有关的错误，那多半不是账号问题，也不是网络问题，而是<b>系统缺少根证书</b>。</p><p><b>为什么会这样。</b>袖珍版、装机版、网吧版、GHOST 版这类被精简过的 Windows，为了压体积，把系统自带的「受信任的根证书颁发机构」列表一并删掉了，同时关闭了根证书自动更新。程序与服务器之间走的是 HTTPS，证书校验通不过，连接就会在登录这一步被打断；账号身份验证走的是同一条通道，所以会一起失败。正常安装的 Windows 自带这套证书，不会遇到这个问题。</p><p><b>怎么解决（三步）。</b>① 以管理员身份打开「命令提示符」或 PowerShell；② 依次执行下面两条命令（需要联网）：<br><code>certutil -generateSSTFromWU roots.sst</code><br><code>certutil -addstore -f root roots.sst</code><br>第一条从微软服务器下载完整的根证书列表，第二条把它安装进系统；③ 重启 ViMoxPC，重新登录。</p><p>若执行完仍无法登录，说明该系统缺失的不止证书一项，建议改用微软官方原版镜像安装的 Windows，或换一台完整版系统的电脑使用。</p><p><b>怎么快速自检。</b>用浏览器打开任意 HTTPS 网站，如果频繁弹出「证书无效」「你的连接不是私密连接」这类警告，基本就能确认是系统根证书缺失。</p></div></details>
+      </div>
+    </div>
+
+    <div class="faq-group">
+      <h3>功能细节</h3>
+      <div class="faq">
+        <details class="faq-item"><summary>传输大文件有大小限制吗？</summary><div class="a"><p>软件侧不设人为大小限制，实际取决于目标磁盘剩余空间与传输时长。超大文件建议在网络空闲时段进行。</p></div></details>
+        <details class="faq-item"><summary>能传文件夹吗？</summary><div class="a"><p>支持按目录传输。文件数量极多时，建议先打包再传，速度与稳定性都更好。</p></div></details>
+        <details class="faq-item"><summary>能听到对方电脑的声音吗？</summary><div class="a"><p>软件提供"音频共享 / 听对方电脑声音"相关选项（默认未启用，可在界面中开启），实际效果以当前版本表现为准；核心能力仍是屏幕画面、远程操作与文件传输。</p></div></details>
+        <details class="faq-item"><summary>能远程开关机或唤醒电脑吗？</summary><div class="a"><p>不能。软件需要被控端处于开机并运行状态。关机状态下的网络唤醒需要硬件与网卡层面另行支持。</p></div></details>
+        <details class="faq-item"><summary>被控端的人能看见我在操作吗？</summary><div class="a"><p>能。被控端屏幕上会体现鼠标与键盘的实际操作过程，程序本身也无隐藏模式。这一点是刻意设计的——远程控制不应该是"偷偷进行"的。</p></div></details>
+        <details class="faq-item"><summary>支持快捷键和组合键吗？</summary><div class="a"><p>支持常用组合键与快捷键输入（如 Ctrl 系列、Alt 系列、Win 系列组合），以便完成复制粘贴、切换窗口等操作。</p></div></details>
+        <details class="faq-item"><summary>支持选择被控端的某一块显示器吗？</summary><div class="a"><p>不提供显示器选择开关，画面以被控端当前显示内容为准。若两端系统缩放比例差异较大，建议调整为接近的设置，以获得更精准的操作定位。</p></div></details>
+      </div>
+    </div>
+
+    <div class="faq-group">
+      <h3>安全与合规</h3>
+      <div class="faq">
+        <details class="faq-item"><summary>会不会被判定为恶意软件？</summary><div class="a"><p>远程控制类程序的行为特征（屏幕采集、广播、键盘鼠标模拟）与部分恶意软件重叠，安全软件可能提示风险。这是此类工具的普遍情况，请从官方渠道获取，并按需在安全软件中放行。</p></div></details>
+        <details class="faq-item"><summary>别人知道我的口令就能连我的电脑吗？</summary><div class="a"><p>口令是准入的第一道关卡，通过后仍需被控端本人点击"允许"才会建立连接。请务必使用足够复杂且不外泄的口令并定期更换，也不要在不可信网络中开放被控服务。</p></div></details>
+        <details class="faq-item"><summary>公司规定不许装远程软件，我还能用吗？</summary><div class="a"><p>请遵守你所在单位的规定。工具本身合法，但使用行为必须符合管理制度与法律法规。</p></div></details>
+        <details class="faq-item"><summary>日志会记录什么？会外传吗？</summary><div class="a"><p>日志记录在本机，内容为关键操作留痕，用于事后核查，不会自动外传。日志含敏感信息，请自行做好权限保护。</p></div></details>
+      </div>
+    </div>
+
+    <div class="faq-group">
+      <h3>技术与获取</h3>
+      <div class="faq">
+        <details class="faq-item"><summary>为什么只支持 64 位系统？</summary><div class="a"><p>程序依赖的运行时与图形框架在 32 位环境下无法完整提供，强行支持会牺牲稳定性。为保障可用性，目前只提供 64 位版本。</p></div></details>
+        <details class="faq-item"><summary>需要自己安装 Python 运行库吗？</summary><div class="a"><p>不需要。所需组件随官方安装包一并部署，按安装向导装好即可运行，无需自行配置 Python 环境。请勿从第三方渠道获取所谓"绿色版"。</p></div></details>
+        <details class="faq-item"><summary>自定义 DLL 扩展怎么用？必须一模一样吗？</summary><div class="a"><p>扩展采用单个官方 DLL（play_music_ext_new.dll）运行时内嵌加载，零配置、零解压，放到指定位置即可；小改动时无需重新下载主体程序，可直接使用自定义 DLL。DLL 必须与官方发布版本一模一样（同一文件、同一版本），不能改名、不能修改、不能用其他版本替代，否则扩展无法生效甚至引发异常。</p></div></details>
+        <details class="faq-item"><summary>版本号怎么看？</summary><div class="a"><p>版本号形如 <b>1.0.1</b>，三位数字各管一件事：<b>第一位</b>代表整体架构变更，<b>第二位</b>代表新增功能，<b>第三位</b>代表修复已知问题。当同一版本累计完成 <b>10 次更新</b>后，第一位数字加 1——例如 1.0 系列完成 10 次更新后，即进入 2.0。所以看到版本号变化，可以反推这一版改的是架构、功能还是修 bug。</p></div></details>
+        <details class="faq-item"><summary>从哪里获取才是安全的？</summary><div class="a"><p>只从作者公布的渠道获取：进入软件内的「投诉与反馈」入口，那里写明的网址（https://wj.qq.com/s2/27229824/qcyp/）即为官方反馈与获取渠道。作者不会一直在开源部署平台（代码托管 / 部署平台上的仓库、Issue、私信）上收集反馈，那里的留言未必会被看到，因此请到上面写明的指定网站反馈。第三方下载站的"高速下载器""绿色版"可能被二次打包，无法保证未被篡改。</p></div></details>
+        <details class="faq-item"><summary>会开源吗？</summary><div class="a"><p>当前以免费可执行程序形式发布，不提供源码分发。这与免费使用并不冲突：你可以自由使用完整功能，但不获取源码。</p></div></details>
+        <details class="faq-item"><summary>发现 Bug 或有建议，怎么反馈？</summary><div class="a"><p>进入<b>软件内的「投诉与反馈」</b>，或在浏览器打开反馈网址 <b>https://wj.qq.com/s2/27229824/qcyp/</b> 提交。请附上系统版本（Win10 / Win11）、软件版本、操作步骤与现象描述，越具体越容易定位。作者不会一直在开源平台上收集反馈，因此请到上面写明的指定网站提交，这是唯一会被处理的反馈渠道。</p></div></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="terms">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="num">15</div>
+      <div>
+        <h2>条款声明</h2>
+        <p class="section-sub">以下条款逐字复制自软件客户端内的《用户协议》，与你在软件启动时看到的、需要点击同意的那份内容完全一致。条款更新后，软件会在启动时再次展示并重新征得同意；如本页与软件内展示有不一致之处，以软件内展示的版本为准。</p>
+      </div>
+    </div>
+
+    <div class="terms">
+      <article>
+        <h3>〇、为什么需要先阅读并同意本协议</h3>
+        <p>依据《中华人民共和国民法典》第四百九十六条的规定，采用格式条款订立合同的，提供格式条款的一方应当遵循公平原则确定当事人之间的权利和义务，并采取合理的方式提示对方注意与其有重大利害关系的条款。依据《中华人民共和国个人信息保护法》的规定，处理个人信息应当取得个人的知情同意。本协议即为您与软件版权方之间关于使用本软件所达成的合同约定；在点击“同意”前先行阅读本协议，既是法律的要求，也有助于您充分了解软件功能边界、自身权利义务及各类风险提示，从而作出知情、理性的选择。</p>
+        <p><b>关于绕过条款确认的特别说明：</b>若您未完整阅读本协议即点击“同意”，或未点击“同意”而直接使用本软件，不影响本协议作为双方之间约定的效力。软件版权方仅依据法律法规的规定，对软件自身的质量、安全及应尽的法定义务承担责任，任何超出法律法规规定的承诺或责任约定均不产生效力。</p>
+      </article>
+      <article>
+        <h3>一、软件说明与版权归属</h3>
+        <p>viMoxPC 是一款基于 P2P 点对点直连技术的本地远程控制工具，主要用于个人设备间的远程协助与管理。</p>
+        <p><b>服务对象与适用地域（重要告知）：</b>本软件面向中华人民共和国大陆地区（不含香港特别行政区、澳门特别行政区及台湾地区）的用户提供，本协议的解释与履行均以中国大陆地区法律法规为准。若您所在地区不属于上述范围，或您所在地区的法律规定与本协议存在冲突，请停止下载、安装或使用本软件。</p>
+        <p>本软件的全部版权及知识产权，均归软件版权方（开发者）所有。当前版本软件遵循“免费使用”原则，不收取任何授权费用，软件版权方保留未来版本调整授权政策或收费方式的权利。</p>
+        <p><b>使用权与禁止性行为声明：</b>用户仅获得本软件在许可范围内的使用权，不享有本软件的任何所有权、著作权及其他知识产权。未经软件版权方书面授权，用户不得对本软件进行反编译、逆向工程、破解、篡改、注入，或制作、传播任何修改版、破解版及非官方版本，违者应承担相应法律责任。</p>
+      </article>
+      <article>
+        <h3>二、连接授权与安全机制</h3>
+        <ol>
+          <li><b>双重授权模式：</b>本软件支持“允许密码连接”与“无需密码连接”两种模式。用户应根据自身安全需求谨慎选择。</li>
+          <li><b>实时授权确认（核心）：</b>无论采用何种模式，当控制端发起连接请求时，被控端设备必须强制弹出带有“允许”与“拒绝”按钮的实时授权提示框。只有被控端用户本人亲自点击“允许”按钮后，远程连接才会正式建立。若用户点击“拒绝”、点击“取消”或超时（120秒）未响应，连接请求将即时终止。本机自连（即控制端与本机为同一设备，回环地址 127.0.0.1/::1）属于本机内部操作，不在此授权弹框范围内。</li>
+          <li><b>一键紧急终止：</b>在远程控制连接期间，被控端用户可随时同时按下 ESC+F12（连续2次）快捷键，或点击软件上的“断开”按钮，立即终止所有远程连接，彻底恢复设备控制权。</li>
+          <li><b>无密码模式特别风险提示：</b>选择“无需密码”模式后，任何知道您 IP 地址的人均可在您点击“允许”之前发起连接请求。虽然最终控制权仍取决于您是否手动点击“允许”，但无密码模式会显著降低攻击者发起社会工程学攻击或误操作授权的难度。一旦您误点“允许”，他人将可能直接控制您的设备。选择该模式即表示您已充分理解上述风险，并自愿承担由此产生的一切后果；但依据法律法规规定不得免除或限制的责任（包括因本软件自身缺陷、开发者故意或重大过失造成的损害，以及造成人身损害的情形）不在此限。</li>
+          <li><b>授权操作范围：</b>被控端用户点击“允许”授权连接，即表示同意控制端用户在软件所提供功能范围内进行远程操作（包括但不限于查看屏幕、键鼠控制、文件管理、远程终端等）。被控端用户应在授权前确认控制端身份可信，并知悉上述操作可能带来的后果；授权期间因被控端允许的远程操作所产生的变更或后果，由双方依各自操作自行承担。</li>
+        </ol>
+      </article>
+      <article>
+        <h3>三、数据与隐私保护</h3>
+        <ol>
+          <li>本软件不获取、不上传、不备份用户的远程屏幕内容、键盘输入内容及传输的文件内容。为维护软件安全、反盗版及封禁违规用户，软件以用户 GitHub 账号登录，仅将账号数字 ID 提交至开发者云端用于设备注册与黑名单比对；GitHub 授权令牌仅保存在用户本机（vimox_account.json），客户端不会将任何令牌上传至开发者云端，开发者亦不收集、不保存用户令牌。除该账号数字 ID 外，开发者不收集、不上传、不备份用户的连接记录、操作记录或连接历史。该账号数字 ID 仅用于上述反盗版与黑名单比对目的，不用于其他用途；用户如需注销或删除已注册的账号标识，可通过官方用户群（QQ群：1095743124）联系软件版权方处理，开发者将在收到请求后 30 个工作日内完成处理：对于未列入黑名单的账号标识，予以彻底删除；对于已列入黑名单的账号标识，在安全防护必要范围内予以保留，删除范围不包含该黑名单留存。账号标识存储于访问权限受开发者控制的非公开存储中，不对公众开放读取。开发者不会将本软件收集或上传的任何数据用于广告投放、用户画像，也不会向任何第三方出售或共享该数据。</li>
+          <li>本软件仅在用户本地设备中生成及存储必要的配置文件。软件卸载时，用户需主动清理本地残留数据。因用户未清理本地文件导致的数据残留，与软件开发者无关；但依据法律法规规定不得免除或限制的责任（包括因本软件自身缺陷、开发者故意或重大过失造成的损害，以及造成人身损害的情形）不在此限。</li>
+          <li>本软件采用点对点直连架构，本地连接密码仅由用户设备独立生成并保管，开发者服务器端不存储、不获取该密码；若因本软件自身缺陷导致密码泄露，开发者仅在法律规定范围内承担相应责任。</li>
+          <li><b>文件传输保存路径：</b>通过本软件“文件管理”功能接收的文件，默认保存至本机指定接收文件夹（用户可在软件设置中调整保存位置）。用户收到任何文件后，应自行使用杀毒软件扫描并谨慎打开。因用户运行未知来源文件导致的病毒、勒索软件或其他安全事件，由用户自行承担全部责任；但依据法律法规规定不得免除或限制的责任（包括因本软件自身缺陷、开发者故意或重大过失造成的损害，以及造成人身损害的情形）不在此限。</li>
+        </ol>
+      </article>
+      <article>
+        <h3>四、用户权利与义务</h3>
+        <ol>
+          <li>用户有权自由选择开启或关闭本软件的远程控制功能，并随时修改、重置连接密码。</li>
+          <li>用户对自己设置的密码负有完全保管责任。若用户使用弱密码、将密码外泄，或未经充分核实便点击“允许”授权了身份不明或非信任的控制端，导致设备被控制、数据泄露或遭受其他损失，一切后果均由用户自行承担；但依据法律法规规定不得免除或限制的责任（包括因本软件自身缺陷、开发者故意或重大过失造成的损害，以及造成人身损害的情形）不在此限。</li>
+          <li>用户应当清楚了解，将设备交由他人使用，或在不安全的公共网络环境下使用本软件，可能增加设备被非预期操控的风险。用户应自行承担上述操作带来的全部后果；但依据法律法规规定不得免除或限制的责任（包括因本软件自身缺陷、开发者故意或重大过失造成的损害，以及造成人身损害的情形）不在此限。</li>
+          <li>若用户选择“无需密码”模式，用户明确知悉并同意：每次收到连接请求时，必须亲自确认请求来源可信，任何误点“允许”导致的设备被控、数据泄露、隐私暴露或其他损失，均由用户自行承担。</li>
+          <li><b>未知来源连接特别提示：</b>所有远程连接均需被控端用户本人点击“允许”后方可建立。用户应仅接受自己认识并信任的设备发起的连接请求；对于不认识、不确定来源、或身份信息（IP 地址、Windows 名称、GitHub 账号号码）与预期不符的连接请求，用户应直接拒绝接收。若用户明知对方身份未知或可疑，仍主动点击“允许”接受该连接，由此导致的设备被控、数据泄露、文件损毁或其他损失，均由用户自行承担；但因本软件自身缺陷、开发者故意或重大过失导致的损失除外。</li>
+          <li><b>违规账号标识处理：</b>为维护软件安全与反盗版，对于经查证存在破解、篡改、恶意攻击、批量骚扰连接或传播恶意代码等行为的用户，软件版权方有权将其 GitHub 账号数字 ID 列入黑名单并限制其使用本软件。被列入黑名单的用户可通过官方用户群（QQ群：1095743124）提出申诉，软件版权方将在 30 个工作日内核查并答复。</li>
+          <li><b>黑名单数据留存说明（重要告知）：</b>GitHub 账号数字 ID 被列入黑名单后，软件版权方有权继续保存并存放该黑名单（含该账号标识），用于持续的防护与比对；该留存不会因账号离线或软件卸载而自动清除。如您希望对已留存的账号标识提出删除申请，可参照本协议第三条第一节的流程，通过官方用户群（QQ群：1095743124）联系软件版权方处理；但已列入黑名单的标识，其删除范围不包含上述黑名单留存。</li>
+          <li><b>用户内容责任：</b>用户在使用本软件过程中自行设置、上传或传输的头像、文字及其他内容，均属用户自主行为，软件仅提供技术工具，不参与、不干预用户内容本身。我们建议用户选用合法合规、享有合法权利的素材。若用户内容涉及第三方合法权益，我们将在收到有效权利通知后依法予以配合处理。</li>
+        </ol>
+      </article>
+      <article>
+        <h3>四之二、权限使用与运行说明（重要）</h3>
+        <p>本软件为执行特定功能，可能会调用您设备的以下能力。所有调用仅在您主动使用对应功能时触发，且均为本地处理：</p>
+        <ol>
+          <li><b>摄像头：</b>仅在使用“扫码识别（二维码扫描）”功能时调用，用于实时读取画面中的二维码；画面仅在本地内存中处理与显示，不上传、不存储、不传输到任何服务器。不使用该功能时，软件不会访问摄像头。</li>
+          <li><b>麦克风/扬声器：</b>仅当您开启“音频共享/远程语音”等音频功能时调用，用于向已授权的远程会话方实时传输声音；关闭功能即停止调用。软件不会在后台静默录音。</li>
+          <li><b>管理员权限建议（重要）：</b>本软件的部分高级功能（如抓包分析、系统级文件搜索等）需要以管理员权限运行才能正常使用。强烈建议您右键程序图标，选择“以管理员身份运行”来启动本软件，以获得完整功能体验，并避免部分功能因权限不足而无法使用或失效。</li>
+          <li><b>网络权限：</b>本软件采用点对点直连（P2P）架构，需要访问网络以建立点对点远程连接，并会向开发者云端提交 GitHub 账号数字 ID 用于反盗版与黑名单比对（详见第三条）。除此以外，不向开发者上传其他数据。</li>
+        </ol>
+      </article>
+      <article>
+        <h3>五、更多服务功能与使用规范</h3>
+        <p>本软件“更多服务”模块及顶部工具栏集成以下辅助功能，用户在使用前应仔细阅读各功能的风险提示：</p>
+        <p style="background:var(--brand-050);border:1px solid var(--brand-200);border-left:3px solid var(--ok);padding:var(--s3) var(--s4)"><b>用途边界声明：</b>以下工具仅面向<b>学习、教学与已获合法授权的环境</b>提供技术能力，任何对他人设备、网络的未授权扫描、探测、入侵或破坏行为均与本软件无关且被明确禁止。使用者须自行确保所有操作均在合法授权范围内进行。</p>
+        <ol>
+          <li><b>视频格式转换：</b>仅用于转换用户拥有合法权利的视频文件。用户不得利用本功能处理侵犯他人著作权、肖像权或其他合法权益的音视频内容。</li>
+          <li><b>音频格式转换：</b>仅用于转换用户拥有合法权利的音频文件。因转换受版权保护的内容而产生的法律责任，由用户自行承担。</li>
+          <li><b>图片格式转换：</b>仅用于转换用户拥有合法权利的图片文件。用户不得利用本功能制作、传播违法或侵权图片。</li>
+          <li><b>图片压缩：</b>仅用于压缩用户拥有合法权利的图片文件。用户不得利用本功能处理、传播侵犯他人合法权益或违法、侵权的图片内容；因处理或传播侵权、违法图片产生的法律责任，由用户自行承担。</li>
+          <li><b>抓包工具（网络抓包与分析）：</b>仅可在用户拥有管理权限的自有网络或已获得合法授权的网络中使用。严禁用于窃取他人通信数据、攻击他人网络、绕过网络安全策略或从事任何违反《中华人民共和国网络安全法》及相关法律法规的行为。因违法抓包导致的行政处罚、刑事追责及民事赔偿，均由用户自行承担，与本软件开发者无关；但依据法律法规规定不得免除或限制的责任（包括因本软件自身缺陷、开发者故意或重大过失造成的损害，以及造成人身损害的情形）不在此限。</li>
+          <li><b>文件管理（远程文件传输）：</b>仅在双方用户均主动启用该功能且被控端已授权远程连接的前提下可用。通过该功能发送或接收的任何文件，其合法性、安全性由传输双方自行负责。</li>
+          <li><b>IT工程（IP计算、端口扫描、编码/安全工具）：</b>仅可用于用户对自有设备、自有网络或已获合法授权的目标进行技术性检测与分析。严禁用于对他人设备、网络实施未授权的扫描、探测、入侵或破坏，因滥用本功能导致的法律责任由用户自行承担。</li>
+          <li><b>高速下载器：</b>本工具仅支持 HTTP / HTTPS / FTP 等直链多线程下载，仅限用于下载用户拥有合法下载权限的内容。用户不得利用本功能下载或传播侵权内容、盗版资源、恶意软件或任何违反法律法规的文件，下载内容的合法性、安全性及产生的网络与磁盘占用均由用户自行评估并承担；磁力链接等协议本工具不支持，请使用专用下载工具处理。</li>
+          <li><b>IT命令行：</b>本功能提供 Linux 风格终端与红蓝队侦查、路由器树等命令行辅助能力，仅可用于用户自有设备、自有网络或已获得合法授权的目标。严禁用于对他人设备或网络实施未授权的扫描、探测、入侵、提权或破坏；因滥用本功能而产生的一切法律责任，由用户自行承担；但依据法律法规规定不得免除或限制的责任（包括因本软件自身缺陷、开发者故意或重大过失造成的损害，以及造成人身损害的情形）不在此限。</li>
+          <li><b>文件快传：</b>本功能用于在局域网内分享文件，接收方扫码即取。请勿分享、传播违法、侵权、含恶意代码或涉及他人商业秘密、个人隐私的文件；因分享或接收文件引发的合法性、安全性问题，由分享方与接收方自行负责。</li>
+          <li><b>靶场（本机靶机演练）：</b>本功能提供前端 HTML 与后端 SQL 双编辑器，用于在用户本机启动靶机环境进行合法学习与安全演练。严禁将靶场环境暴露至公网、用于攻击他人系统或从事任何违反《中华人民共和国网络安全法》等法律法规的行为；由此产生的一切后果由用户自行承担；但依据法律法规规定不得免除或限制的责任（包括因本软件自身缺陷、开发者故意或重大过失造成的损害，以及造成人身损害的情形）不在此限。</li>
+          <li><b>模型探测（AI 本地大模型）：</b>本软件提供本地大模型下载与推理功能，模型文件由第三方开源社区（如 ModelScope、Hugging Face 等）提供，软件版权方不保证模型内容的准确性、安全性与合规性。下载产生的流量、磁盘占用，以及因使用模型内容引发的一切后果，均由用户自行评估并承担；但依据法律法规规定不得免除或限制的责任（包括因本软件自身缺陷、开发者故意或重大过失造成的损害，以及造成人身损害的情形）不在此限。用户下载的模型仅供合法用途，不得用于生成违法、侵权内容。</li>
+          <li><b>第三方开源组件：</b>本软件集成的部分功能可能依赖第三方开源组件或库（如音视频编解码、AI 模型等），相关组件的权利归其各自权利人所有，并适用其各自的许可协议。因第三方组件自身缺陷或授权限制引发的风险，由相应权利人与用户依其许可协议处理，软件版权方已尽合理注意义务，并仅在法律规定范围内承担责任。</li>
+          <li><b>扫码识别（二维码扫描）：</b>该功能调用本机摄像头实时读取画面中的二维码，识别出的内容（如网址链接、文本等）仅在本机处理；若识别为网址，将调用默认浏览器打开，若为文本则在弹窗中显示。请勿扫描不明来源、包含恶意链接的二维码，因扫描并访问恶意链接造成的损失由用户自行承担。该功能不会在后台自动启用，也仅在您主动进入扫码页时才会调用摄像头（详见“四之二、权限使用与运行说明”）。</li>
+        </ol>
+      </article>
+      <article>
+        <h3>五之二、基础功能使用规范（补充条款）</h3>
+        <p>本节所述各项功能均须在遵守法律法规及本协议的前提下使用；本节各条中关于责任承担的表述，均不包含依据法律法规规定不得免除或限制的责任（包括因本软件自身缺陷、开发者故意或重大过失造成的损害，以及造成人身损害的情形）。</p>
+        <ol>
+          <li><b>手势控制：</b>本功能用于启用与配置软件的手势操作（含本机手势及远程会话中的手势指令），默认不开启，需由用户主动在设置中启用后方可生效；手势识别结果仅在本机处理。用户应避免为删除文件、关机、重启、断开连接等不可逆或高影响操作配置易误触发的手势；因手势误识别或用户自行配置不当所导致的误操作及其后果，由用户自行承担（法定不得免除或限制的责任除外）。</li>
+          <li><b>攻击与检测：</b>本功能面向安全学习与技术研究，仅可用于用户自有设备、自有网络或已取得合法授权的目标。严禁用于对他人设备或网络实施未授权的扫描、探测、入侵、干扰或破坏，亦不得用于任何违反《中华人民共和国网络安全法》等法律法规的行为；因滥用本功能所产生的法律责任，由用户自行承担（法定不得免除或限制的责任除外）。</li>
+          <li><b>端口设置：</b>本功能用于配置本软件的本地服务端口及相关网络参数。用户应确保所选端口符合其所在网络的管理规定（如企业网络、校园网及运营商策略），并自行评估端口开放可能带来的安全风险；因用户错误配置、长期开放或未及时关闭端口而导致的未授权访问、连接异常或其他损失，由用户自行承担（法定不得免除或限制的责任除外）。</li>
+          <li><b>高级设置：</b>本功能涉及运行参数、日志与调试等选项，部分选项可能影响软件稳定性、兼容性或性能表现。建议用户在充分理解各选项含义后再行调整，并优先使用默认值；因用户自行修改高级设置导致的软件异常、功能失效、数据丢失或需要重新配置，相关后果由用户自行承担（法定不得免除或限制的责任除外）。软件对由此产生的配置异常会尽量输出错误日志并提示修复方法。</li>
+          <li><b>设备列表：</b>本功能用于查看与本机建立过连接或曾被允许连接的设备清单，便于用户识别与管理设备。用户应定期核对清单，及时移除陌生或不再信任的设备；因用户未及时清理设备清单、或自行将清单信息对外提供而引发的风险与损失，由用户自行承担（法定不得免除或限制的责任除外）。</li>
+          <li><b>反馈：</b>本功能用于向软件版权方提交使用意见、故障反馈与改进建议。请勿在反馈内容中提交密码、密钥、证件号码、他人隐私或其他敏感信息；用户应对其提交内容的合法性与真实性负责。反馈内容仅用于问题定位与产品改进，不用于其他商业用途（法定不得免除或限制的责任除外）。</li>
+          <li><b>捐款支持（捐赠条款）：</b>本软件的“捐款支持”属于完全自愿的无偿赠与行为，由用户通过第三方捐赠平台（如爱发电）自主完成，款项用于软件的持续开发与运行维护。捐赠不构成购买软件使用权、授权许可、增值服务或任何特定回报的对价，亦不改变本协议关于责任范围的约定；除法律法规规定或捐赠平台规则另有规定外，已完成的捐赠不予退还。捐赠涉及的支付信息由第三方平台按其自身规则独立处理，软件版权方不收集、不存储用户的支付信息。未成年人进行捐赠的，应事先取得其法定监护人同意。</li>
+          <li><b>自定义 DLL 扩展：</b>本软件支持通过单个扩展 DLL（如官方发布的 play_music_ext_new.dll）启用扩展能力。新增 DLL 扩展后，小改动时无需重新下载主体程序，可直接使用自定义 DLL，方便使用。扩展采用运行时内嵌方式加载，零配置、零解压；用户必须使用软件版权方官方发布、未经任何修改的扩展 DLL，DLL 文件必须与官方发布版本完全一致（一模一样），不得自行改名、修改、替换或混用来源不明的 DLL，否则可能导致扩展无法加载、功能异常或带来安全隐患；因用户使用非官方或经修改的 DLL 所导致的一切后果由用户自行承担（法定不得免除或限制的责任除外）。</li>
+        </ol>
+      </article>
+      <article>
+        <h3>五之三、版本更新与更新提示的遵守</h3>
+        <ol>
+          <li><b>版本更新提示：</b>本软件在启动并通过合法验证后，会读取官方公开的版本信息，与程序内置的版本号进行比对；二者不一致时，将向用户展示版本更新提示。该提示分为“自主更新”与“非自主更新”两类：自主更新时，是否更新由用户自行决定；非自主更新时，意味着开发者已发现影响安全或功能的危险漏洞，软件将提示用户必须更新至最新版本。</li>
+          <li><b>遵循非自主更新提示的义务：</b>软件提示“非自主更新”时，用户应按照提示完成更新。用户明确知悉并同意：通过点击取消、断开网络连接、修改 hosts 文件、修改或替换程序文件、注入代码，或以其他任何方式绕过该提示并继续使用旧版本，均属于违反本协议的行为；由此产生的任何后果由用户自行承担（依据法律法规规定不得免除或限制的责任除外）。</li>
+        </ol>
+      </article>
+      <article>
+        <h3>六、免责与责任限制（赔偿上限）</h3>
+        <ol>
+          <li>开发者已尽到软件行业标准的合理注意义务，但不能保证软件绝对无错误、无中断或不感染病毒。因用户自身网络波动、设备硬件故障、操作系统不兼容、本地病毒攻击、或用户自身操作失误导致的功能失效或数据丢失，开发者不承担责任。</li>
+          <li><b>责任范围：</b>本软件为完全免费产品。若因软件自身核心缺陷给用户造成直接经济损失，软件版权方将依据《中华人民共和国民法典》《中华人民共和国消费者权益保护法》等法律法规的规定，在其过错范围内依法承担相应赔偿责任；因用户自身原因、第三方原因或不可抗力造成的损失，由相应责任方依法承担。对于法律法规明确规定不得免除或限制的责任（包括但不限于因故意或重大过失造成的损害、造成人身损害的情形），本协议不作出任何免除或限制。</li>
+          <li>本软件仅为远程控制及辅助工具集合，用户利用本软件进行的任何违法、违规操作（包括但不限于非法远程控制他人设备、非法抓包、侵犯知识产权、传播病毒或勒索软件），均属于用户的独立个人行为，与本软件开发者无关，用户需独立承担一切刑事及民事法律责任；但依据法律法规规定不得免除或限制的责任（包括因本软件自身缺陷、开发者故意或重大过失造成的损害，以及造成人身损害的情形）不在此限。</li>
+          <li><b>非官方版本免责：</b>用户使用非官方渠道发布的破解版、修改版、被注入、篡改或来源不明的本软件版本时，因该版本存在的功能缺陷、安全漏洞、恶意代码或数据泄露等引发的一切损失与风险，均由用户自行承担，与软件版权方无关；但依据法律法规规定不得免除或限制的责任（包括因本软件自身缺陷、开发者故意或重大过失造成的损害，以及造成人身损害的情形）不在此限。</li>
+          <li><b>破解/篡改免责：</b>客户端程序若被破解、注入、篡改或经非官方渠道获取，由此产生的任何后果由使用者自行承担，与本产品及版权方无关；但依据法律法规规定不得免除或限制的责任（包括因本软件自身缺陷、开发者故意或重大过失造成的损害，以及造成人身损害的情形）不在此限。</li>
+          <li><b>本机数据文件的自动改写与修复说明（重要告知）：</b>为保障软件正常运行，本软件会在其数据目录内对自身配置文件（即本协议所述的“不可删除文件”，包括但不限于 config.json、devices.json、logs.json、security_logs.txt、terms_agreed）进行读取、校验与必要的自动修复；上述行为属于软件正常运行的必要组成部分，不属于本条第 4 款、第 5 款所指的“破解、注入、篡改”情形，也不免除版权方因自身缺陷依法应当承担的责任。若因用户手工编辑、使用第三方工具修改或其他外部原因，导致上述文件损坏（例如缩进错误、文字内容错误、字段缺失、格式错乱）而使软件无法正常读取，软件将不再直接异常退出，而是输出具体错误日志并提示修复方法；用户依据该提示自行修复文件的行为及其结果，由用户自行负责。本款不影响依据法律法规规定不得免除或限制的责任。</li>
+          <li><b>用户自行修改文件的界定：</b>用户对本人设备数据目录内的文件（包括本软件生成的配置文件、数据文件、日志文件及其所在文件夹）进行复制、移动、删除、重命名或手工编辑，属于用户对自有设备数据的处分行为，不构成本条第 4 款、第 5 款所指的对本软件的“破解、注入或篡改”；但由此可能导致软件功能异常、数据丢失或需要重新配置，相关后果由用户自行承担（依据法律法规规定不得免除或限制的责任除外）。反之，对客户端程序本体（可执行文件、脚本源码）进行反编译、二次修改、注入或重新打包分发，仍属于本协议禁止的破解、篡改行为。</li>
+        </ol>
+      </article>
+      <article>
+        <h3>七、争议解决（管辖权）</h3>
+        <p>本协议的订立、效力、解释、履行及争议解决，均适用中华人民共和国法律。因本协议或使用本软件引发的任何争议，双方应首先友好协商解决；若协商未果，任何一方均有权将争议提交至湖北省宜昌市有管辖权的人民法院进行诉讼裁决。</p>
+      </article>
+      <article>
+        <h3>八、条款更新</h3>
+        <p>软件版权方有权根据法律法规和产品发展需要，更新本协议内容。条款更新后，软件将在启动时向用户展示新版条款并再次征得用户点击同意；用户若不同意修改后的条款，应停止使用本软件并卸载。用户点击同意新版条款，或在新版条款生效后继续使用本软件的，视为接受新条款。</p>
+      </article>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="section alt" id="privacy">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="num">16</div>
+      <div>
+        <h2>隐私政策</h2>
+        <p class="section-sub">这份政策以"我们做了什么、没做什么"的方式书写，不使用模糊表述。以下说明对应软件当前版本的实现行为，软件更新后如有变化，以软件内说明与作者公布为准。</p>
+      </div>
+    </div>
+
+    <div class="terms">
+      <article>
+        <h3>一、信息收集</h3>
+        <ol>
+          <li>本软件需要登录<b>GitHub 账号</b>（OAuth 授权），因此不额外收集你的手机号、邮箱、真实姓名、证件信息。</li>
+          <li>本软件<b>不采集</b>你的通讯录、短信、通话记录、相册、位置信息。</li>
+          <li>本软件<b>不接入</b>第三方行为统计、崩溃上报或广告 SDK，不上报操作埋点。</li>
+          <li>每台设备的连接密码由本机独立生成并保存在本机，开发者服务器<b>不存储</b>你的连接密码。</li>
+        </ol>
+      </article>
+
+      <article>
+        <h3>二、数据存储</h3>
+        <ol>
+          <li>配置、口令、日志等数据<b>保存在本机</b>，存于程序所在目录或系统用户目录下的配置路径中。</li>
+          <li>配置、设备记录、日志等<b>不上传</b>至任何服务器，开发者无法远程读取你的本地配置与日志。唯一上报服务器的数据是 GitHub 账号数字 ID，详见下文「GitHub 账号与云端登记」。</li>
+          <li>数据目录位置由一个"位置指针"文件（system_config.json）记录，程序靠它找到 config.json、devices.json、logs.json 等文件。请勿在程序正常运行时移动或删除它，否则可能被误判为新设备而重建账号。</li>
+          <li>卸载程序不会自动删除配置文件；如需彻底清理，请手动删除对应目录。</li>
+          <li>请自行对含敏感信息的配置与日志做好访问权限控制与备份管理。</li>
+        </ol>
+      </article>
+
+      <article>
+        <h3>三、数据传输</h3>
+        <ol>
+          <li>屏幕画面、操作指令与文件，仅在<b>控制端与被控端之间</b>传输，传输发生在你的局域网内。</li>
+          <li>传输内容<b>不经过第三方内容服务器</b>中转或留存，开发者不具备查看你传输内容的技术条件。</li>
+          <li>连接建立前须通过口令校验，且需被控端本人确认授权，未通过者不建立会话、不传输任何画面与文件。</li>
+          <li>请在可信网络中使用，并在不需要时及时关闭被控服务。</li>
+        </ol>
+      </article>
+
+      <article>
+        <h3>四、GitHub 账号与云端登记</h3>
+        <ol>
+          <li>软件以<b>GitHub OAuth 授权</b>登录，在<b>首次使用及之后每次启动</b>时，会将你的 GitHub 账号数字 ID 提交至开发者云端，用于设备注册。</li>
+          <li>用途仅限<b>反盗版与黑名单比对</b>，以及拦截恶意连接与骚扰；不用于识别你的身份，不收集你的连接内容、屏幕画面与操作记录。GitHub 授权令牌仅保存在本机（vimox_account.json），客户端不会将任何令牌上传至开发者云端。</li>
+          <li>账号数字 ID 进入黑名单后，该账号将无法继续使用本软件的连接功能。</li>
+          <li><b>注销账号不会自动删除</b>云端账号标识。如需删除，请参照软件内《用户协议》第三条的流程，通过官方用户群（QQ群：1095743124）或软件内写明的投诉与反馈渠道申请，版权方将在 30 个工作日内处理；未列入黑名单的标识将彻底删除，已列入黑名单的标识在安全防护必要范围内保留。</li>
+        </ol>
+      </article>
+
+      <article>
+        <h3>五、你的权利</h3>
+        <ol>
+          <li><b>知情权：</b>你可以随时查看本机配置与日志，了解程序记录了哪些内容。</li>
+          <li><b>删除权：</b>你可以随时删除程序本体、本地配置与日志，无需向任何人申请。</li>
+          <li><b>拒绝权：</b>你可以随时拒绝被远程连接——不开启被控服务、不提供口令即可。</li>
+          <li><b>询问权：</b>对数据处理方式有疑问，可通过底部联系方式提出，我们会如实说明。</li>
+        </ol>
+      </article>
+
+      <article>
+        <h3>六、本网站的隐私</h3>
+        <ol>
+          <li>本页面为静态页面，不设置用户登录，不写入用于追踪的 Cookie。</li>
+          <li>本页面不投放广告，不嵌入第三方广告联盟、统计或社交追踪代码。</li>
+          <li>若页面托管方在服务端记录访问日志（如 IP、时间），该部分由托管平台按其政策处理，不属于本软件的数据处理范围。</li>
+        </ol>
+      </article>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="updates">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="num">17</div>
+      <div>
+        <h2>更新日志</h2>
+        <p class="section-sub">只记录真实发生的版本。当前正式版本为 1.0.1，未发布过的版本号不会出现在这里。</p>
+      </div>
+    </div>
+
+    <div class="log">
+      <div class="log-item">
+        <span class="tag">v1.0.1 · 当前版本</span>
+        <h3>新增自定义 DLL 扩展</h3>
+        <ul>
+          <li>新增自定义 DLL 扩展：小改动时无需重新下载主体程序，可直接使用自定义 DLL，方便使用。</li>
+          <li>整体稳定性与细节体验优化。</li>
+        </ul>
+      </div>
+
+      <div class="log-item">
+        <span class="tag">v1.0.0 · 首个正式版本</span>
+        <h3>首个正式版本</h3>
+        <ul>
+          <li>局域网设备发现、屏幕画面查看与鼠标键盘远程操作。</li>
+          <li>控制端与被控端之间的文件传输。</li>
+          <li>连接密码校验 + 被控端显式授权确认；支持紧急断连（连按两次 ESC+F12）。</li>
+          <li>GitHub OAuth 账号登录体系，账号数字 ID 云端注册，设备记录、设置与日志保存在本机数据目录。</li>
+          <li>GitHub 账号数字 ID 云端注册与黑名单比对（反盗版与恶意连接防护）。</li>
+          <li>攻击检测与黑白名单；通话之外的日志（logs.json / security_logs.txt）留痕。</li>
+        </ul>
+      </div>
+
+      <div class="log-item">
+        <span class="tag">版本号规则</span>
+        <h3>三位数字分别代表什么</h3>
+        <ul>
+          <li><b>第一位</b>：整体架构变更。</li>
+          <li><b>第二位</b>：新增功能。</li>
+          <li><b>第三位</b>：修复已知问题。</li>
+          <li>同一个版本累计完成 <b>10 次更新</b>后，第一位数字加 1——例如 1.0 系列完成 10 次更新后，版本进入 2.0。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section alt" id="download">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="num">18</div>
+      <div>
+        <h2>获取 ViMoxPC</h2>
+        <p class="section-sub">请从官方渠道获取，避免使用来源不明的"绿色版""破解版"，这类文件可能被二次打包。</p>
+      </div>
+    </div>
+
+    <div class="dl">
+      <div class="dl-box">
+        <p class="ver">1.0.1<small>CURRENT RELEASE</small></p>
+        <div class="tbl-scroll" style="margin-top:var(--s5)">
+          <table class="tbl">
+            <tbody>
+              <tr><th style="width:38%">推荐平台</th><td>64 位 Windows 10</td></tr>
+              <tr><th>Windows 11</th><td>可运行，但稳定性较差</td></tr>
+              <tr><th>交付形态</th><td>官方安装包</td></tr>
+              <tr><th>是否需要安装</th><td>需要，按安装向导完成安装</td></tr>
+              <tr><th>费用</th><td>免费</td></tr>
+              <tr><th>账号要求</th><td>需要登录（GitHub 账号）</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="dl-actions">
+          <a class="btn btn-primary" href="#" onclick="openDlModal(event)">点击下载</a>
+          <a class="btn btn-ghost" href="https://www.virustotal.com/gui/file/4f9ee74537dea672136dceaa40748f072c81de5ef43ae02b59fe556588e0aa35" target="_blank" rel="noopener" title="VirusTotal 68 引擎检测 0 检出，公开报告">查看 VirusTotal 报告</a>
+          <a class="btn btn-ghost" href="#start">先看使用步骤</a>
+          <a class="btn btn-ghost" href="#" onclick="openDllModal(event)" title="下载官方自定义 DLL 扩展">DLL 总下载处</a>
+        </div>
+        <p class="dl-meta">下载前请确认：你的系统为 64 位；你打算连接的设备处于同一局域网；你已获得对被控设备的操作授权。</p>
+        <p class="dl-meta" style="margin-top:var(--s4);padding-top:var(--s3);border-top:1px solid var(--line)"><b>官方发布信息</b>：本版本 1.0.1 由独立开发者（GitHub 账号 awde432）发布于 <a href="https://github.com/awde432/AWDE432.github.io/releases" target="_blank" rel="noopener">GitHub Release 官方发布页</a>。SHA256：<code style="word-break:break-all">4F9EE74537DEA672136DCEAA40748F072C81DE5EF43AE02B59FE556588E0AA35</code>，可在 VirusTotal 官网粘贴复核。</p>
+      </div>
+
+      <div>
+        <h3>获取前请确认三件事</h3>
+        <ul class="bullets">
+          <li><b>系统匹配。</b>需 64 位 Windows；Win10 可稳定运行，Win11 虽能运行但稳定性较差。32 位系统与 Win7 无法运行。</li>
+          <li><b>网络可通。</b>两台设备需在同一网段，且网络未禁止设备间广播。</li>
+          <li><b>授权合法。</b>你只能连接自己拥有或已获明确授权的设备。</li>
+        </ul>
+        <div class="notice" style="margin-top:var(--s5)">
+          <h3>为什么要从官方渠道获取</h3>
+          <p>第三方站点分发的版本可能被植入额外程序、修改下载行为或捆绑无关软件，也可能带破解改动导致功能异常。官方安装包不包含任何此类内容。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="notice" style="margin-top:var(--s6)">
+      <h3>安全验证：VirusTotal 检测报告与如何核对文件真伪</h3>
+      <p>ViMoxPC 由个人开发者免费维护，未购买商业代码签名证书，因此 Windows 与部分安全软件可能提示"未知发布者"或误报风险。这是未签名个人软件的正常现象，不代表文件被篡改。官方安装包已提交 VirusTotal 多引擎检测，<b>68 个安全引擎 0 检出</b>，结论安全。请按下面步骤核对文件真伪：</p>
+      <ul class="bullets">
+        <li><b>查看 VirusTotal 公开检测报告。</b>点击链接查看官方安装包的实时多引擎检测报告：<a href="https://www.virustotal.com/gui/file/4f9ee74537dea672136dceaa40748f072c81de5ef43ae02b59fe556588e0aa35" target="_blank" rel="noopener">VirusTotal 检测报告（68 引擎，0 检出）</a>；也可直接访问 VirusTotal 官网，将本页 SHA256 哈希粘贴到搜索框自行复核，结论应与本页一致。</li>
+        <li><b>核对 SHA256 哈希（可选辅助）。</b>下载后打开命令提示符（Win+R 输入 cmd），运行 <code>certutil -hashfile "你的下载路径\ViMoxPC_Setup.exe" SHA256</code>，结果应与本页哈希一致：<br><code style="word-break:break-all">4F9EE74537DEA672136DCEAA40748F072C81DE5EF43AE02B59FE556588E0AA35</code></li>
+        <li><b>只从官方渠道获取。</b>本页面、QQ 群（群号 1095743124）群文件与 GitHub Release 为唯一官方来源；第三方站点版本可能被二次打包。</li>
+        <li><b>杀软误报处理。</b>若安全软件拦截本程序，请提交误报申诉（360 / 腾讯电脑管家 / 火绒 / Windows Defender 均提供误报反馈入口），说明为个人开发者使用 Nuitka 编译的免费远程控制软件即可。</li>
+      </ul>
+    </div>
+    <div class="notice" style="margin-top:var(--s4)">
+      <h3>关于 AI 评测与网络传言：请以官方证据为准</h3>
+      <p><b>本站是什么。</b>本站是 ViMoxPC 的唯一官方网站。ViMoxPC 是个人开发者独立开发的局域网远程控制软件，免费、无广告、无捆绑，用于远程协助、教学演示与设备管理；下载渠道、文件哈希、多引擎检测报告均在本页公开可查。</p>
+      <p><b>官方为什么公开这些证据。</b>ViMoxPC 由个人开发者维护，未购买商业代码签名证书，提示"未知发布者"属于未签名个人软件的正常现象。为了让每位用户都能独立判断，官方主动公开 VirusTotal 68 引擎 0 检出的公开报告与本文件 SHA256，任何人都可以在 VirusTotal 官网粘贴哈希自行复核。透明不是为了作秀，而是让你不必轻信任何一面之词。</p>
+      <p><b>为什么建议不要高度依赖人工智能评价本软件。</b>AI 评测普遍存在三类偏差：① 多数 AI 评测不访问官网与检测报告，仅凭"远程控制"这一标签、或名称相近的第三方软件进行联想推断；② 部分评测会放大个别平台的旧记录（如历史报毒、已修复的错误），不核实时效；③ AI 输出自带权威感，容易被断章取义做成视频或帖子，普通用户看后不再核实就转发跟风，一传十、十传百，最终受伤害的是独立开发者与免费软件本身——软件可能因此被误下架、被误解。因此官方建议：判断 ViMoxPC 是否安全，请以本页公开的 VirusTotal 报告链接、SHA256 哈希与官方渠道下载实测为准，而不是以任何第三方总结、视频或传言为准。</p>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="num">19</div>
+      <div>
+        <h2>联系我们</h2>
+        <p class="section-sub">获取软件、反馈问题、申请删除云端设备标识，请走下面写明的唯一渠道。作者不会一直在开源平台上收集大家的反馈，需要反馈请到下面这个指定网站提交。</p>
+      </div>
+    </div>
+
+    <div class="notice" style="margin-top:var(--s4)">
+      <h3>唯一有效渠道：软件内「投诉与反馈」写明的反馈网址</h3>
+      <p>需要联系作者、反馈问题或申请删除云端设备标识，请通过下面的反馈网址提交你的问题与联系方式：</p>
+      <p><b>https://wj.qq.com/s2/27229824/qcyp/</b></p>
+      <p>该网址与软件内「投诉与反馈」入口中写明的反馈网址是同一个。这是当前唯一会被处理的联系路径。</p>
+      <p>作者不会一直在开源平台上（代码托管 / 部署平台上的仓库、Issue、私信等）收集大家的反馈，那里的留言未必会被看到。需要反馈、获取软件或申请删除设备标识，请到上面写明的指定网站提交——这是唯一会被处理的渠道。</p>
+    </div>
+
+    <div class="cols-3" style="margin-top:var(--s6)">
+      <div class="panel">
+        <h4>获取软件与更新</h4>
+        <p>通过上述反馈网址说明你需要的版本与使用场景（个人 / 教学 / 企业内部）。</p>
+      </div>
+      <div class="panel">
+        <h4>问题反馈</h4>
+        <p>反馈缺陷时请提供：系统版本（Win10 还是 Win11）、软件版本、操作步骤、实际现象（可附截图）。信息越完整，定位越快。</p>
+      </div>
+      <div class="panel">
+        <h4>设备标识删除申请</h4>
+        <p>如需删除云端设备标识，同样通过该反馈网址提交，版权方将在 30 个工作日内处理。</p>
+      </div>
+    </div>
+
+    <div class="notice" style="margin-top:var(--s6)">
+      <div class="cols-2">
+        <div>
+          <h3>开发者</h3>
+          <p>ViMoxPC 由个人开发者独立设计与维护。软件、文档与本站内容均由作者本人整理。</p>
+        </div>
+        <div>
+          <h3>为什么只留一个渠道</h3>
+          <p>维护者只有一个人，论坛、仓库、私信等多处入口无法兼顾。集中到一个反馈入口，问题才不会被漏掉。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section alt" id="notice">
+  <div class="wrap">
+    <div class="notice">
+      <h3>重要声明</h3>
+      <ul>
+        <li>本软件仅用于<b>合法、已获授权</b>的远程协助、教学演示与设备管理场景。</li>
+        <li>使用前请确认你已获得被控设备所有者或管理方的<b>明确同意</b>。</li>
+        <li>严禁用于未经授权的监视、数据获取或任何违法用途。</li>
+        <li>在校园与企业环境中使用时，请同时遵守所在单位的管理制度。</li>
+        <li>使用者须对自己的一切使用行为承担全部责任。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <p class="brand"><img class="mark" src="https://awde432.github.io/assets/vimoxPC.ico" alt="" width="28" height="28">ViMoxPC</p>
+        <p style="margin-top:var(--s3);max-width:34ch">面向局域网的 Windows 远程控制软件。一对一连接、需 GitHub 账号登录、免费使用、无广告、无捆绑。</p>
+        <p>当前版本：1.0.1 · 推荐 Windows 10（64 位）</p>
+        <p>本网站为 ViMoxPC 唯一官方发布站，由开发者本人直接维护，无代理商、无第三方分发。</p>
+      </div>
+      <div>
+        <h4>产品</h4>
+        <ul>
+          <li><a href="#what">这是什么</a></li>
+          <li><a href="#features">核心功能</a></li>
+          <li><a href="#spec">规格与性能</a></li>
+          <li><a href="#require">系统要求</a></li>
+          <li><a href="#updates">更新日志</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>了解</h4>
+        <ul>
+          <li><a href="#tech">技术构成</a></li>
+          <li><a href="#why">为什么选它</a></li>
+          <li><a href="#cases">使用场景</a></li>
+          <li><a href="#faq">常见问题</a></li>
+          <li><a href="#start">使用步骤</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>规则</h4>
+        <ul>
+          <li><a href="#free">费用与授权</a></li>
+          <li><a href="#privacy-brief">账号与广告</a></li>
+          <li><a href="#security">安全说明</a></li>
+          <li><a href="#terms">条款声明</a></li>
+          <li><a href="#privacy">隐私政策</a></li>
+          <li><a href="#contact">联系我们</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© ViMoxPC. 保留所有权利。由独立开发者（GitHub 账号 awde432）开发并维护。本软件仅用于合法、已获授权的远程协助、教学演示与设备管理场景。</p>
+      <p>官方唯一发布渠道：<a href="https://awde432.github.io/" target="_blank" rel="noopener">本站</a> · <a href="https://github.com/awde432/AWDE432.github.io/releases" target="_blank" rel="noopener">GitHub Release</a> · QQ 群（群号 1095743124）。请从官方渠道获取程序，避免使用来源不明的二次打包版本。</p>
+    </div>
+  </div>
+</footer>
+
+
+<style>
+/* ============================================================
+   交互动画（轻量）：滚动渐入 / 卡片悬浮 / 按钮流光 / FAQ 平滑展开
+   默认无动画渲染，JS 启用后才有 reveal；尊重 prefers-reduced-motion
+   ============================================================ */
+html{scroll-behavior:smooth}
+html.anim-on .reveal{opacity:0;transform:translateY(18px);transition:opacity .55s cubic-bezier(.22,.61,.36,1),transform .55s cubic-bezier(.22,.61,.36,1)}
+html.anim-on .reveal.is-in{opacity:1;transform:none}
+
+/* 顶栏滚动阴影 */
+.nav{transition:box-shadow .25s ease}
+.nav.is-scrolled{box-shadow:0 6px 18px rgba(14,27,38,.07)}
+
+/* 导航链接下划线 */
+.nav-links a{position:relative}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:2px;border-radius:1px;background:var(--brand);transition:width .22s ease}
+.nav-links a:hover::after{width:100%}
+
+/* 按钮微交互 */
+.btn{position:relative;overflow:hidden;transition:background-color .12s linear,color .12s linear,border-color .12s linear,transform .15s ease,box-shadow .2s ease}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,120,212,.24)}
+.btn-primary:active{transform:translateY(0);box-shadow:none}
+.btn-primary::after{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.32),transparent);transform:skewX(-18deg);pointer-events:none;transition:left .5s ease}
+.btn-primary:hover::after{left:130%}
+
+/* 卡片悬浮 */
+.feat{transition:transform .2s ease,box-shadow .25s ease,background-color .25s ease}
+.feat:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(8,60,105,.08);background:var(--white);z-index:1}
+.case{transition:transform .2s ease,box-shadow .25s ease,border-color .25s ease}
+.case:hover{transform:translateY(-3px);border-color:var(--brand-200);box-shadow:0 10px 26px rgba(8,60,105,.08)}
+.fact{transition:background-color .25s ease}
+.fact:hover{background:var(--brand-050)}
+
+/* FAQ 平滑展开 */
+.faq-item .a{overflow:hidden;max-height:0;opacity:0;padding:0 0 0 30px;transition:max-height .32s ease,opacity .32s ease,padding-bottom .32s ease}
+.faq-item.is-open .a{max-height:var(--a-h,600px);opacity:1;padding:0 0 var(--s5) 30px}
+
+/* 阅读进度条（顶部细条） */
+.read-progress{position:fixed;top:0;left:0;z-index:9999;height:3px;width:0;background:linear-gradient(90deg,var(--brand),#4c9aff);pointer-events:none}
+
+/* 标题下划线生长（随 reveal 进入视口） */
+html.anim-on .section-head h2{position:relative;padding-bottom:.32em}
+html.anim-on .section-head h2::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;border-radius:2px;background:var(--brand);transform:scaleX(0);transform-origin:left;transition:transform .7s cubic-bezier(.22,.61,.36,1) .12s}
+html.anim-on .section-head.reveal.is-in h2::after{transform:scaleX(1)}
+
+/* Hero 柔光斑漂移（低透明、慢速，不干扰阅读） */
+html.anim-on .hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:
+  radial-gradient(560px 300px at 16% 18%,rgba(0,120,212,.10),transparent 62%),
+  radial-gradient(480px 260px at 84% 32%,rgba(76,154,255,.08),transparent 62%);
+  animation:heroDrift 26s ease-in-out infinite alternate}
+@keyframes heroDrift{from{transform:translate3d(0,0,0)}to{transform:translate3d(2.5%,-2%,0)}}
+
+/* 品牌标志呼吸光晕（柔和） */
+html.anim-on .brand .mark{border-radius:6px;animation:brandGlow 4.5s ease-in-out infinite}
+@keyframes brandGlow{0%,100%{box-shadow:0 0 0 rgba(0,120,212,0)}50%{box-shadow:0 0 16px rgba(0,120,212,.32)}}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  html.anim-on .reveal{opacity:1;transform:none;transition:none}
+  .feat,.case,.fact,.btn,.nav-links a::after,.faq-item .a{transition:none!important}
+}
+</style>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return;
+  document.documentElement.classList.add('anim-on');
+
+  // HERO 入场：加载后逐个浮现
+  var heroEls = document.querySelectorAll('.hero .eyebrow, .hero h1, .hero .lede, .hero-actions, .hero-note, .hero .factrow');
+  heroEls.forEach(function(el, i){
+    el.classList.add('reveal');
+    el.style.transitionDelay = (i * 0.08) + 's';
+  });
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      heroEls.forEach(function(el){ el.classList.add('is-in'); });
+    });
+  });
+
+  // 滚动渐入：节头 / 功能卡 / 场景卡 / 双栏标题
+  var targets = document.querySelectorAll('.section-head, .feat, .case, .cols-2 > h3, .cols-3 > *, .steps > li');
+  targets.forEach(function(el){ el.classList.add('reveal'); });
+  var groups = {};
+  targets.forEach(function(el){
+    var parent = el.parentElement;
+    var key = parent ? parent.className || 'root' : 'root';
+    (groups[key] = groups[key] || []).push(el);
+  });
+  Object.keys(groups).forEach(function(k){
+    groups[k].forEach(function(el, i){
+      el.style.transitionDelay = Math.min(i * 0.06, 0.3) + 's';
+    });
+  });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting) {
+        en.target.classList.add('is-in');
+        io.unobserve(en.target);
+      }
+    });
+  }, {threshold: 0.12, rootMargin: '0px 0px -8% 0px'});
+  targets.forEach(function(el){ io.observe(el); });
+
+  // 顶栏滚动阴影
+  var nav = document.querySelector('.nav');
+  function onScroll(){ nav.classList.toggle('is-scrolled', window.scrollY > 8); }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // FAQ 平滑展开
+  var faqs = document.querySelectorAll('.faq-item');
+  faqs.forEach(function(d){
+    var a = d.querySelector('.a');
+    if (!a) return;
+    function sync(){
+      if (d.open) {
+        a.style.setProperty('--a-h', a.scrollHeight + 'px');
+        d.classList.add('is-open');
+      } else {
+        d.classList.remove('is-open');
+      }
+    }
+    d.addEventListener('toggle', sync);
+    window.addEventListener('resize', function(){ if (d.open) sync(); });
+  });
+})();
+</script>
+
+<style>
+/* ============ 可交互 3D 界面模型 ============ */
+.vimox-3d-sec{margin-top:52px;padding-top:36px;border-top:1px solid rgba(0,120,212,.14)}
+.model-head{text-align:center;margin-bottom:26px}
+.model-head h3{font-size:22px;color:#0e1b26;margin:0 0 8px}
+.model-sub{color:#5c6b7a;font-size:13px;max-width:640px;margin:0 auto;line-height:1.7}
+.vimox-stage{position:relative;display:flex;align-items:center;justify-content:center;height:620px;perspective:1500px;overflow:visible;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.vimox-stage:active{cursor:grabbing}
+.vimox-wrap{width:880px;height:600px;transform-style:preserve-3d;transform:scale(1)}
+.vimox-model{position:relative;width:880px;height:600px;transform-style:preserve-3d;transform:rotateX(10deg) rotateY(-22deg)}
+.vimox-face{position:absolute;inset:0;backface-visibility:hidden}
+.vimox-face.front{border-radius:8px;box-shadow:0 30px 70px rgba(6,22,38,.35);border:1px solid rgba(255,255,255,.08);transform:translateZ(1px)}
+.vimox-face.front .vm-app{width:880px;height:600px;display:flex;border-radius:8px;overflow:hidden;font-family:"Segoe UI","Microsoft YaHei",system-ui,sans-serif;background:#f5f7fa}
+.vimox-face.back{border-radius:8px;transform:rotateY(180deg) translateZ(1px);background:linear-gradient(155deg,#eef2f6 0%,#dce4ec 100%);border:1px solid rgba(0,120,212,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.back-mark{font-size:92px;font-weight:800;color:#2f7fd6;letter-spacing:-4px;font-family:Arial,sans-serif;line-height:1;text-shadow:0 0 34px rgba(47,127,214,.35)}
+.back-name{font-size:22px;color:#0e1b26;font-weight:600;letter-spacing:2px}
+.back-sub{font-size:11px;color:#4a5a6a;letter-spacing:1px}
+.vimox-edge{display:none}
+.vimox-edge.l{left:-10px;top:0;width:20px;height:100%;transform:rotateY(-90deg) translateZ(440px)}
+.vimox-edge.r{left:0;top:0;width:20px;height:100%;transform:rotateY(90deg) translateZ(440px)}
+.vimox-edge.t{left:0;top:-10px;width:100%;height:20px;transform:rotateX(90deg) translateZ(300px)}
+.vimox-edge.b{left:0;top:0;width:100%;height:20px;transform:rotateX(-90deg) translateZ(300px)}
+.vimox-floor{position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:520px;height:64px;border-radius:50%;background:radial-gradient(ellipse at center,rgba(4,18,30,.34) 0%,rgba(4,18,30,.12) 45%,transparent 72%);filter:blur(3px)}
+.vimox-hint{text-align:center;color:#7c8b98;font-size:12px;margin-top:10px;letter-spacing:.5px}
+/* 模型内部 UI */
+.vm-side{width:185px;flex:0 0 185px;background:#2a2f38;color:#cfd5dc;display:flex;flex-direction:column;padding:14px 10px 10px;font-size:13px;box-sizing:border-box}
+.vm-user{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08)}
+.vm-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#0078d4,#4c9aff);color:#fff;font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif}
+.vm-uname{font-size:14px;color:#fff;font-weight:600;margin-top:2px}
+.vm-warn{font-size:11px;color:#f5c542;line-height:1.4}
+.vm-online{font-size:11px;color:#36c86c}
+.vm-tip{font-size:11px;color:#9aa3ad;line-height:1.4}
+.vm-profile{width:100%;text-align:center;background:#3a4049;color:#fff;font-size:12px;border-radius:6px;padding:5px 0;margin-top:4px}
+.vm-menu{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:2px;overflow:hidden}
+.vm-menu li{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;color:#cfd5dc;font-size:13px;white-space:nowrap;cursor:pointer;position:relative}
+.vm-menu li .ic{width:20px;height:20px;border-radius:5px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;font-size:12px;flex:0 0 20px}
+.vm-menu li.active{color:#66b0ff;font-weight:600;background:rgba(0,120,212,.12)}
+.vm-menu li.active::after{content:"";position:absolute;left:10px;right:10px;bottom:0;height:2px;background:#4c9aff;border-radius:2px}
+.vm-menu li.active .ic{background:rgba(0,120,212,.25)}
+.vm-content{flex:1;padding:22px 24px;box-sizing:border-box;overflow:hidden;display:flex;flex-direction:column;gap:12px}
+.vm-title{font-size:20px;color:#0e1b26;margin:0;font-weight:700}
+.vm-card{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(14,27,38,.07);padding:14px 16px;display:flex;flex-direction:column;gap:7px}
+.vm-card-head{display:flex;align-items:center;justify-content:space-between}
+.vm-card-head h3{font-size:15px;color:#0e1b26;margin:0;font-weight:600}
+.pill.on{background:#0078d4;color:#fff;font-size:12px;border-radius:20px;padding:3px 14px}
+.vm-sub{font-size:13px;color:#37424e;margin:0;font-weight:600}
+.vm-desc{font-size:12px;color:#6b7885;margin:0;line-height:1.55}
+.vm-seg{display:inline-flex;background:#e8ebf0;border-radius:8px;padding:3px;width:fit-content}
+.vm-seg span{font-size:12px;padding:5px 18px;border-radius:6px;color:#4a5563;cursor:pointer}
+.vm-seg span.on{background:#0078d4;color:#fff}
+.vm-tabs{display:inline-flex;background:#e8ebf0;border-radius:8px;padding:3px;width:fit-content}
+.vm-tabs span{font-size:12px;padding:5px 18px;border-radius:6px;color:#4a5563;cursor:pointer}
+.vm-tabs span.on{background:#0078d4;color:#fff}
+.vm-link{font-size:12px;color:#0078d4;border:1px solid rgba(0,120,212,.4);border-radius:6px;padding:5px 12px;width:fit-content;cursor:pointer;background:rgba(0,120,212,.04)}
+.vm-input{font-size:13px;color:#8b98a5;background:#fff;border:1px solid #d7dde4;border-radius:8px;padding:9px 12px;cursor:text}
+.vm-cta{font-size:14px;color:#fff;background:linear-gradient(135deg,#0078d4,#0a8ff0);text-align:center;border-radius:8px;padding:10px 0;cursor:pointer;box-shadow:0 4px 14px rgba(0,120,212,.28)}
+@media (max-width:900px){.vimox-stage{height:560px}.vimox-floor{width:60%}}
+/* ---------- 下载确认弹窗 ---------- */
+.dl-modal{position:fixed;inset:0;z-index:999;display:none;align-items:center;justify-content:center;background:rgba(8,12,20,.72);backdrop-filter:blur(6px);padding:16px}
+.dl-modal.open{display:flex}
+.dl-modal-card{background:var(--bg,#fff);max-width:680px;width:100%;max-height:88vh;overflow:auto;border-radius:16px;padding:26px 26px 22px;box-shadow:0 24px 64px rgba(0,0,0,.45)}
+.dl-modal-card h3{margin:0 0 10px;font-size:1.35rem}
+.dl-modal-card>p{margin:0 0 12px;line-height:1.7}
+.dl-modal-card ol{margin:0 0 12px;padding-left:22px;line-height:1.7}
+.dl-code{position:relative;margin:12px 0 14px;border:1px solid rgba(0,0,0,.14);border-radius:10px;overflow:hidden;background:#0d1117}
+.dl-code pre{margin:0;padding:14px 16px;overflow:auto;color:#e6edf3;font-family:var(--mono);font-size:.78rem;line-height:1.55}
+.dl-copy{position:absolute;top:8px;right:8px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#e6edf3;font-size:.72rem;padding:4px 10px;border-radius:6px;cursor:pointer;font-family:inherit}
+.dl-copy:hover{background:rgba(255,255,255,.18)}
+.dl-copy.done{background:#238636;border-color:#2ea043}
+.dl-modal-note{font-size:.85rem;color:var(--muted,#666)} .dl-modal-warn{margin:0 0 14px;padding:12px 14px;border:1px solid rgba(230,162,60,.55);background:rgba(255,244,220,.92);border-radius:10px;font-size:.9rem;line-height:1.75;color:#5b3d0a} .dl-modal-warn b{color:#a05a00}
+.dl-modal-legal{font-size:.78rem;color:var(--muted,#888);border-top:1px solid rgba(0,0,0,.08);margin:14px 0 0;padding-top:10px;line-height:1.6}
+.dl-modal-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.dl-modal-actions .btn{flex:1;min-width:200px;text-align:center}
+.dll-list{display:flex;flex-direction:column;gap:10px;margin:14px 0 6px}
+.dll-item{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border:1px solid rgba(0,0,0,.12);border-radius:12px;cursor:pointer;background:rgba(255,255,255,.6);transition:border-color .15s,background .15s}
+.dll-item:hover{border-color:rgba(60,110,220,.5)}
+.dll-item:has(input:checked){border-color:rgba(60,110,220,.85);background:rgba(60,110,220,.08)}
+.dll-item input{accent-color:#3c6edc;margin-top:3px;flex:none}
+.dll-item .dll-name{font-weight:700;font-size:.95rem;display:block}
+.dll-item .dll-desc{display:block;font-size:.82rem;color:var(--muted,#666);line-height:1.6;margin-top:3px}
+@media (max-width:520px){.dl-modal-card{padding:20px 16px}.dl-code pre{font-size:.7rem}}
+</style>
+<script>
+(function(){
+  var stage=document.getElementById('vimoxStage'), wrap=document.getElementById('vimoxWrap'), model=document.getElementById('vimoxModel');
+  if(!stage||!model) return;
+  var rx=10, ry=-22, down=false, lx=0, ly=0, vx=0, vy=0, last=0, raf=0;
+  model.style.transform='rotateX('+rx+'deg) rotateY('+ry+'deg)';
+  function clamp(v,a,b){return v<a?a:(v>b?b:v);}
+  function apply(){model.style.transform='rotateX('+rx.toFixed(2)+'deg) rotateY('+ry.toFixed(2)+'deg)';}
+  function resize(){
+    var w=stage.clientWidth-24, s=Math.min(1, w/880);
+    wrap.style.transform='scale('+s+')';
+    stage.style.height=(600*s+92)+'px';
+  }
+  window.addEventListener('resize', resize); resize();
+  stage.addEventListener('pointerdown', function(e){
+    down=true; lx=e.clientX; ly=e.clientY; vx=0; vy=0; last=performance.now();
+    try{stage.setPointerCapture(e.pointerId);}catch(err){}
+    if(raf)cancelAnimationFrame(raf);
+    model.style.transition='none';
+  });
+  stage.addEventListener('pointermove', function(e){
+    if(!down)return;
+    var dx=e.clientX-lx, dy=e.clientY-ly; lx=e.clientX; ly=e.clientY;
+    ry+=dx*0.45; rx+=dy*0.45; rx=clamp(rx,-80,80);
+    var now=performance.now(), dt=Math.max(1,now-last); last=now;
+    vx=dx/dt; vy=dy/dt;
+    apply();
+  });
+  function stop(){
+    if(!down)return; down=false;
+    var t=0;
+    (function step(){
+      t+=1; var k=Math.max(0,1-t/16);
+      if(k>0.02&&(Math.abs(vx)>0.25||Math.abs(vy)>0.25)){
+        ry+=vx*20*k; rx+=vy*20*k; rx=clamp(rx,-80,80);
+        apply(); raf=requestAnimationFrame(step);
+      }
+    })();
+  }
+  stage.addEventListener('pointerup', stop);
+  stage.addEventListener('pointercancel', stop);
+  stage.addEventListener('dblclick', function(){
+    rx=10; ry=-22;
+    model.style.transition='transform .55s cubic-bezier(.2,.8,.2,1)';
+    apply();
+  });
+  stage.addEventListener('wheel', function(e){e.preventDefault();},{passive:false});
+  stage.addEventListener('dragstart', function(e){e.preventDefault();});
+  // 滚动渐入
+  var sec=document.getElementById('vimox3d');
+  sec.style.transition='opacity .8s ease .15s, transform .8s ease .15s';
+  sec.style.opacity='0'; sec.style.transform='translateY(26px)';
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){
+    if(en.isIntersecting){sec.style.opacity='1'; sec.style.transform='translateY(0)'; io.disconnect();}
+  });},{threshold:.18});
+  io.observe(sec);
+})();
+</script>
+
+
+<div class="dl-modal" id="dlModal" onclick="if(event.target===this)closeDlModal()">
+  <div class="dl-modal-card">
+    <h3>先说句实在话：直接下载可能非常非常慢</h3>
+    <div class="dl-modal-warn">
+      <p><b>中国大陆下载提示：</b>ViMoxPC 安装包约 141MB，托管在 GitHub 海外服务器。中国大陆网络下载这种大型文件时，可能会出现<b>下载不完全</b>，导致安装包报错（例如提示 “The setup files are corrupted”）。</p>
+      <p>如果你多次尝试下载均失败，可以加入官方用户群 <b>QQ 群：1095743124</b>，在群里说明情况，群内可能帮助你获取安装包。</p>
+    </div>
+    <p>ViMoxPC 的安装包托管在 <b>GitHub</b> 上，国内直连下载速度很不稳定，浏览器点下载大概率要等很久甚至失败。给你两个选择：</p>
+    <ol>
+      <li><b>复制下面的代码</b>，粘贴到你电脑的 Python 环境（IDLE / 终端）运行：它会先自动测速，在单线程和 8 线程并发里选<b>更快的那一种</b>来下载（不搞固定线程数）；下载前会问你保存到哪个文件夹，输错了会自动校验并回退提示；终端实时打印进度、速度和剩余时间；<b>中途不想下了，按 q 键取消，自动删除半成品并退出</b>。</li>
+      <li>不想折腾也没关系，点下面的<b>"我不太懂技术但是我闲得慌可以慢下载"</b>按钮，用浏览器慢慢下载。</li>
+    </ol>
+    <p class="dl-modal-note"><b>此代码仅使用 Python 标准库，无需安装任何第三方库。</b>只需有 Python 3 环境（到 python.org 官网下载安装即可）。</p>
+    <div class="dl-code">
+      <button class="dl-copy" id="dlCopyBtn" onclick="copyDlCode()">复制</button>
+      <pre><code id="dlCode">
+
+import urllib.request, threading, time, os, sys
+
+URL = "https://github.com/awde432/AWDE432.github.io/releases/download/v1.0.1/ViMoxPC_Setup.exe"
+
+
+SAVE = input("下载到哪个文件夹？直接回车=当前目录\n&gt; ").strip()
+if not SAVE:
+    SAVE = os.getcwd()
+if not os.path.isdir(SAVE) or not os.access(SAVE, os.W_OK):
+    print("错误: 文件夹不存在或不可写, 已改用当前目录")
+    SAVE = os.getcwd()
+FILE = os.path.join(SAVE, "ViMoxPC.exe")
+
+
+print("[1/3] 探测文件大小...")
+with urllib.request.urlopen(urllib.request.Request(URL, method="HEAD"), timeout=15) as r:
+    size = int(r.headers.get("Content-Length", 0))
+    support = "bytes" in r.headers.get("Accept-Ranges", "")
+
+
+def warmup():
+    try:
+        req = urllib.request.Request(URL, headers={"Range": "bytes=0-262143"})
+        with urllib.request.urlopen(req, timeout=20) as s:
+            s.read(1 &lt;&lt; 16)
+    except Exception:
+        pass
+
+def bench(n):
+    nbyte = 4 &lt;&lt; 20
+    tmp = os.path.join(SAVE, "_vimox_speed.tmp")
+    with open(tmp, "wb") as f:
+        f.truncate(nbyte * n)
+    err = [None]
+    def wk(i):
+        try:
+            a, b = i * nbyte, (i + 1) * nbyte - 1
+            req = urllib.request.Request(URL, headers={"Range": "bytes=%d-%d" % (a, b)})
+            with urllib.request.urlopen(req, timeout=15) as s, open(tmp, "r+b") as f:
+                f.seek(a)
+                while True:
+                    c = s.read(1 &lt;&lt; 14)
+                    if not c: break
+                    f.write(c)
+        except Exception as e:
+            err[0] = e
+    ts = [threading.Thread(target=wk, args=(i,)) for i in range(n)]
+    t0 = time.time()
+    for t in ts: t.start()
+    for t in ts: t.join()
+    el = time.time() - t0
+    try: os.remove(tmp)
+    except OSError: pass
+    return 0 if err[0] or el &lt;= 0 else nbyte * n / el
+
+print("[2/3] 预热连接并测速(单线程 vs 8线程, 自动选最快)...")
+warmup()
+s1 = bench(1)
+s2 = bench(8) if support else 0
+use_multi = support and s2 &gt; s1 * 1.05
+print("单线程 %.2f MB/s | 8线程 %.2f MB/s -&gt; %s" % (
+    s1 / 1e6, s2 / 1e6, "8线程并发" if use_multi else "单线程(多线程无收益, 上限即单连速度)"))
+
+
+done = [0]; cancel = [False]; start = time.time()
+N = 8
+if use_multi:
+    with open(FILE, "wb") as f:
+        f.truncate(size)
+    def worker(i):
+        try:
+            step = (size + N - 1) // N
+            a, b = i * step, min(size, (i + 1) * step) - 1
+            req = urllib.request.Request(URL, headers={"Range": "bytes=%d-%d" % (a, b)})
+            with urllib.request.urlopen(req, timeout=10) as s, open(FILE, "r+b") as f:
+                f.seek(a)
+                while not cancel[0]:
+                    c = s.read(1 &lt;&lt; 20)
+                    if not c: break
+                    f.write(c); done[0] += len(c)
+        except Exception:
+            pass
+else:
+    def worker(i):
+        try:
+            with urllib.request.urlopen(urllib.request.Request(URL), timeout=10) as s, open(FILE, "wb") as f:
+                while not cancel[0]:
+                    c = s.read(1 &lt;&lt; 20)
+                    if not c: break
+                    f.write(c); done[0] += len(c)
+        except Exception:
+            pass
+
+try:
+    import msvcrt
+except ImportError:
+    msvcrt = None
+
+print("[3/3] 开始下载, 按 q 随时取消(自动删除半成品)...")
+threads = [threading.Thread(target=worker, args=(i,)) for i in range(N if use_multi else 1)]
+for t in threads: t.start()
+while any(t.is_alive() for t in threads):
+    if msvcrt and msvcrt.kbhit() and msvcrt.getch().lower() == b"q":
+        cancel[0] = True
+        break
+    el = time.time() - start
+    cur = done[0]
+    speed = cur / el if el &gt; 0 else 0
+    remain = (size - cur) / speed if speed &gt; 0 else 0
+    tip = "约剩 %.0f 秒" % remain if speed &gt; 0 else "连接中..."
+    print("\r%d%%  %.1f/%.1f MB  %.2f MB/s  %s  [按q取消]" % (
+        int(100 * cur / size), cur / 1e6, size / 1e6, speed / 1e6, tip), end="", flush=True)
+    time.sleep(0.3)
+if cancel[0]:
+    print("\n正在取消并清理...")
+    for t in threads: t.join()
+    try: os.remove(FILE)
+    except OSError: pass
+    print("已取消, 半成品已删除, 再见")
+    sys.exit(0)
+for t in threads: t.join()
+print("\n完成: %s (%.2f MB, %.1f 秒)" % (FILE, size / 1e6, time.time() - start))</code></pre>
+    </div>
+    <div class="dl-modal-actions">
+      <a class="btn btn-ghost" href="#" onclick="closeDlModal()">我知道了并关闭</a>
+      <a class="btn btn-primary" href="https://github.com/awde432/AWDE432.github.io/releases/download/v1.0.1/ViMoxPC_Setup.exe" onclick="closeDlModal()">我不太懂技术但是我闲得慌可以慢下载</a>
+    </div>
+    <p class="dl-modal-legal">使用声明：这段下载脚本代码<b>可以自由复制、抄走使用</b>；但 <b>ViMoxPC 软件本体受版权保护</b>，请勿故意泄露、二次分发或篡改传播。</p>
+  </div>
+</div>
+
+<div class="dl-modal" id="dllModal" onclick="if(event.target===this)closeDllModal()">
+  <div class="dl-modal-card">
+    <h3>DLL 总下载处</h3>
+    <p>请选择你要下载的 DLL。DLL 不会显示版本，但都为最新版本。</p>
+    <div class="dll-list">
+      <label class="dll-item">
+        <input type="radio" name="dllChoice" value="play_music_ext_new.dll" checked>
+        <span><span class="dll-name">play_music_ext_new.dll</span><span class="dll-desc">自定义 DLL 扩展（播放器扩展），运行时内嵌加载、零配置、零解压；请使用官方发布版本，与软件版本完全一致。</span></span>
+      </label>
+    </div>
+    <div class="dl-modal-actions">
+      <a class="btn btn-ghost" href="#" onclick="closeDllModal()">取消</a>
+      <a class="btn btn-primary" href="#" onclick="downloadDll(event)">下载</a>
+    </div>
+    <p class="dl-modal-legal">下载声明：仅支持从本页官方渠道下载 DLL，请勿使用来源不明的 DLL 文件。</p>
+  </div>
+</div>
+
+<script>
+function openDlModal(e){ if(e){e.preventDefault();} document.getElementById('dlModal').classList.add('open'); }
+function closeDlModal(){ document.getElementById('dlModal').classList.remove('open'); }
+function openDllModal(e){ if(e){e.preventDefault();} document.getElementById('dllModal').classList.add('open'); }
+function closeDllModal(){ document.getElementById('dllModal').classList.remove('open'); }
+function downloadDll(e){
+  if(e){ e.preventDefault(); }
+  var sel = document.querySelector('input[name="dllChoice"]:checked');
+  if(!sel){ return; }
+  var a = document.createElement('a');
+  a.href = 'dll/' + sel.value;
+  a.download = sel.value;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  closeDllModal();
+}
+function copyDlCode(){
+  var txt = document.getElementById('dlCode').innerText;
+  function ok(){
+    var b = document.getElementById('dlCopyBtn');
+    b.textContent = '已复制'; b.classList.add('done');
+    setTimeout(function(){ b.textContent = '复制'; b.classList.remove('done'); }, 1600);
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(ok, function(){ fallbackCopy(txt); ok(); });
+  } else { fallbackCopy(txt); ok(); }
+  function fallbackCopy(t){
+    var ta = document.createElement('textarea');
+    ta.value = t; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); }catch(err){}
+    document.body.removeChild(ta);
+  }
+}
+
+/* HERO 彩蛋：每秒读本地时间切换文案 */
+(function(){
+  var eggText = document.getElementById('eggText');
+  var eggClock = document.getElementById('eggClock');
+  var eggs = [
+    {from:5,  to:12, html:'<span class="egg-accent">Good morning！</span>欢迎查看'},
+    {from:12, to:18, html:'<span class="egg-accent">喝杯热茶，探索探索互联网</span>'},
+    {from:18, to:23, html:'<span class="egg-accent">时间不早了，明天探索</span>'},
+    {from:23, to:5,  html:'这难道就是<span class="egg-accent">美国作息</span>？'}
+  ];
+  function pad(x){ return (x<10?'0':'')+x; }
+  function tick(){
+    var d = new Date(), h = d.getHours(), m = d.getMinutes(), s = d.getSeconds();
+    if (eggClock) eggClock.textContent = pad(h)+':'+pad(m)+':'+pad(s);
+    for (var i=0;i<eggs.length;i++){
+      var e = eggs[i];
+      var inRange = e.from < e.to ? (h>=e.from && h<e.to) : (h>=e.from || h<e.to);
+      if (inRange){ if (eggText) eggText.innerHTML = e.html; return; }
+    }
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+
+/* 导航横向滚动：鼠标靠近左右边缘自动滚动露出内容，滚动条隐藏 */
+(function(){
+  var sc = document.querySelector('.nav-links');
+  if (!sc) return;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var raf = null, lastX = 0;
+  function loop(){
+    var rect = sc.getBoundingClientRect();
+    var rel = (lastX - rect.left) / Math.max(rect.width, 1);
+    var speed = 0;
+    if (rel < 0.18) speed = -6 * (0.18 - rel) / 0.18;
+    else if (rel > 0.82) speed = 6 * (rel - 0.82) / 0.18;
+    if (speed !== 0 && sc.scrollWidth > sc.clientWidth){
+      var before = sc.scrollLeft;
+      sc.scrollLeft += speed;
+      if (sc.scrollLeft !== before){ raf = requestAnimationFrame(loop); return; }
+    }
+    raf = null;
+  }
+  sc.addEventListener('mousemove', function(e){
+    if (reduce) return;
+    lastX = e.clientX;
+    if (!raf) raf = requestAnimationFrame(loop);
+  });
+  sc.addEventListener('mouseleave', function(){
+    if (raf){ cancelAnimationFrame(raf); raf = null; }
+  });
+})();
+</script>
+
+</body>
+</html>
+
